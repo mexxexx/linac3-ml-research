@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Max Mihailescu" />
+  <title>Ideas for the Linac3 Source ML Analysis</title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="pandoc.css" type="text/css" />
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+</head>
+<body>
+<div id="header">
+<h1 class="title">Ideas for the Linac3 Source ML Analysis</h1>
+<h2 class="author">Max Mihailescu</h2>
+</div>
+<p>This document provides a collection of ideas and topics for the analysis of the Linac3 Ion Source from a ML viewpoint. I will try to collect descriptions and links to interesting papers and summarize the results I had when trying out some of them.</p>
+<h2 id="clustering">Clustering</h2>
+<p>Given a collection of data points, clustering is to group together points that are similar under some kind of similarity metric. Usually, this is an unsupervised technique, meaning that no reference labels are known. There exist a variety of different algorithms, and each algorithm can produce very different results on the same set of data. Therefore it is crucial to somehow evaluate the results.</p>
+<p>For Linac3 we performed a Clustering Analysis with the goal, to see, if certain settings of the source would lead to a stable beam current. For the resulting report please contact Detlef Küchler (CERN BE-ABP-HSL).</p>
+<p>The clustering algorithm we used is called <em>Optigrid</em> and is described in the paper &quot;Optimal Grid-Clustering: Towards Breaking the Curse of Dimensionality in High-Dimensional Clustering&quot; by Alexander Hinneburg and Daniel A. Keim. <span class="citation">(Hinneburg and Keim 1999)</span></p>
+<h2 id="matrix-profile">Matrix Profile</h2>
+<p>The Matrix Profile is a tool for efficient motif discovery in time series, i.e. for discovery of repeated or &quot;conserved&quot; patterns. It can also be used to find time series discords, i.e. anomalies. A large number of papers was published by the same working group, you can find the projects website here <span class="citation">(Keogh, n.d.)</span>. For a good introduction with example applications read the first paper <span class="citation">(Yeh et al. 2016)</span>.</p>
+<h3 id="what-is-the-matrix-profile">What is the Matrix Profile?</h3>
+<p>First, let's understand what a subsequence is. Consider a time series <span class="math inline">\(T=T_1, \dots ,T_n\)</span> of length <span class="math inline">\(n\)</span>, and fix a number <span class="math inline">\(m &lt; n\)</span> (typically <span class="math inline">\(m \ll n\)</span>). Now, a subsequence of length <span class="math inline">\(m\)</span> starting at <span class="math inline">\(i\)</span> is the continuous block <span class="math inline">\(T_i, \dots T_{i+m}\)</span>. By sliding a window of size <span class="math inline">\(m\)</span> over <span class="math inline">\(T\)</span> we can get all <span class="math inline">\(n-m+1\)</span> subsequences of length <span class="math inline">\(m\)</span>.</p>
+<p>Now, we can define the distance between two subsequences. The most obvious choice is the euclidean distance <span class="math inline">\(dist(Q, T) = \sqrt{\left(Q_1 - T_1\right)^2+\dots+\left(Q_m-T_m\right)^2}\)</span>. However, for the matrix profile we work with the so called <em>z-normalized</em> euclidean distance. It is the euclidean distance of the z-normalized subsequences, i.e. we subtract the mean of the subsequence and divide the difference by its standard deviation, and only then take the elidean distance. By this we rescale all subsequences to make them more compareable. Note that under some circumstances this might be undesirable, for example when search for motifs in the call of a bird where the pitch could be relevant.</p>
+<h2 id="discretization">Discretization</h2>
+<h2 id="change-point-detection">Change Point Detection</h2>
+<h2 id="suffix-arrays">Suffix arrays</h2>
+<h2 id="references" class="unnumbered">References</h2>
+<div id="refs" class="references">
+<div id="ref-Hinneburg:OptimalGridClustering">
+<p>Hinneburg, A., and D. A. Keim. 1999. “Optimal Grid-Clustering: Towards Breaking the Curse of Dimensionality in High-Dimensional Clustering.” <em>Proceedings of the 25th International Conference on Very Large Databases</em>, 506–17. <a href="https://kops.uni-konstanz.de/bitstream/handle/123456789/5790/vldb99.pdf" class="uri">https://kops.uni-konstanz.de/bitstream/handle/123456789/5790/vldb99.pdf</a>.</p>
+</div>
+<div id="ref-Keogh:UCRMatrixProfile">
+<p>Keogh, Eamonn. n.d. “The Ucr Matrix Profile Page.” <a href="https://www.cs.ucr.edu/~eamonn/MatrixProfile.html" class="uri">https://www.cs.ucr.edu/~eamonn/MatrixProfile.html</a>.</p>
+</div>
+<div id="ref-Yeh:MatrixProfileI">
+<p>Yeh, Chin-Chia Michael, Yan Zhu, Liudmila Ulanova, Nurjahan Begum, Yifei Ding, Hoang Anh Dau, Diego Furtado Silva, Abdullah Mueen, and Eamonn Keogh. 2016. “Matrix Profile I: All Pairs Similarity Joins for Time Series: A Unifying View That Includes Motifs, Discords and Shapelets.” <em>IEEE ICDM 2016</em>. <a href="https://www.cs.ucr.edu/~eamonn/PID4481997_extend_Matrix%20Profile_I.pdf">https://www.cs.ucr.edu/~eamonn/PID4481997_extend_Matrix%20Profile_I.pdf</a>.</p>
+</div>
+</div>
+</body>
+</html>
