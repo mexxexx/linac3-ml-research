@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.11.21)  14 JUL 2020 16:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2019.11.21)  17 JUL 2020 15:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -126,6 +126,14 @@ LaTeX Font Info:    Redeclaring font encoding OMS on input line 713.
 \mathdisplay@stack=\toks19
 LaTeX Info: Redefining \[ on input line 2817.
 LaTeX Info: Redefining \] on input line 2818.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/bm.sty
+Package: bm 2017/01/16 v1.2c Bold Symbol Support (DPC/FMi)
+\symboldoperators=\mathgroup6
+\symboldletters=\mathgroup7
+\symboldsymbols=\mathgroup8
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 141.
+LaTeX Info: Redefining \bm on input line 207.
 )
 (/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty
 Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
@@ -1089,34 +1097,34 @@ File: english.lbx 2017/12/19 v3.10 biblatex localization (PK/JW/AB)
 (./roadmap.aux)
 \openout1 = `roadmap.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 77.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 77.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 78.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 78.
  (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 77.
-LaTeX Font Info:    ... okay on input line 77.
-LaTeX Font Info:    Try loading font information for T1+lmr on input line 77.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 78.
+LaTeX Font Info:    ... okay on input line 78.
+LaTeX Font Info:    Try loading font information for T1+lmr on input line 78.
 
 (/usr/share/texmf/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Info: Redefining \microtypecontext on input line 77.
+LaTeX Info: Redefining \microtypecontext on input line 78.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using protrusion set `basicmath'.
@@ -1162,7 +1170,7 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 \AtBeginShipoutBox=\box29
-Package hyperref Info: Link coloring OFF on input line 77.
+Package hyperref Info: Link coloring OFF on input line 78.
 
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2016/05/21 v2.44 Cross-referencing by name of section
@@ -1172,9 +1180,9 @@ Package: gettitlestring 2016/05/16 v1.5 Cleanup title references (HO)
 )
 \c@section@level=\count312
 )
-LaTeX Info: Redefining \ref on input line 77.
-LaTeX Info: Redefining \pageref on input line 77.
-LaTeX Info: Redefining \nameref on input line 77.
+LaTeX Info: Redefining \ref on input line 78.
+LaTeX Info: Redefining \pageref on input line 78.
+LaTeX Info: Redefining \nameref on input line 78.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -1220,36 +1228,36 @@ Package biblatex Info: Automatic encoding selection.
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'roadmap.bbl' found.
 (./roadmap.bbl)
-Package biblatex Info: Reference section=0 on input line 77.
-Package biblatex Info: Reference segment=0 on input line 77.
-LaTeX Font Info:    Try loading font information for OT1+lmr on input line 79.
+Package biblatex Info: Reference section=0 on input line 78.
+Package biblatex Info: Reference segment=0 on input line 78.
+LaTeX Font Info:    Try loading font information for OT1+lmr on input line 80.
  (/usr/share/texmf/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OML+lmm on input line 79.
+LaTeX Font Info:    Try loading font information for OML+lmm on input line 80.
 
 (/usr/share/texmf/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 79.
+LaTeX Font Info:    Try loading font information for OMS+lmsy on input line 80.
 
 
 (/usr/share/texmf/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-LaTeX Font Info:    Try loading font information for OMX+lmex on input line 79.
+LaTeX Font Info:    Try loading font information for OMX+lmex on input line 80.
 
 
 (/usr/share/texmf/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 79.
+(Font)              <14.4> on input line 80.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 79.
+(Font)              <10> on input line 80.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 79.
-LaTeX Font Info:    Try loading font information for U+msa on input line 79.
+(Font)              <7> on input line 80.
+LaTeX Font Info:    Try loading font information for U+msa on input line 80.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -1257,7 +1265,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 (/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 79.
+LaTeX Font Info:    Try loading font information for U+msb on input line 80.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -1266,55 +1274,55 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 118.
+(Font)              <12> on input line 102.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 118.
+(Font)              <8> on input line 102.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 118.
+(Font)              <6> on input line 102.
  [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 <images/MP_example.png, id=31, 1194.4625pt x 424.58624pt>
 File: images/MP_example.png Graphic file (type png)
 <use images/MP_example.png>
-Package pdftex.def Info: images/MP_example.png  used on input line 149.
+Package pdftex.def Info: images/MP_example.png  used on input line 116.
 (pdftex.def)             Requested size: 364.19206pt x 129.4565pt.
  [2 <./images/MP_example.png>]
 <images/current_demo.png, id=50, 1422.9963pt x 739.3221pt>
 File: images/current_demo.png Graphic file (type png)
 <use images/current_demo.png>
-Package pdftex.def Info: images/current_demo.png  used on input line 221.
+Package pdftex.def Info: images/current_demo.png  used on input line 152.
 (pdftex.def)             Requested size: 364.19461pt x 189.21843pt.
 <images/current_demo_2.png, id=51, 1422.9963pt x 739.3221pt>
 File: images/current_demo_2.png Graphic file (type png)
 <use images/current_demo_2.png>
-Package pdftex.def Info: images/current_demo_2.png  used on input line 227.
+Package pdftex.def Info: images/current_demo_2.png  used on input line 158.
 (pdftex.def)             Requested size: 364.19461pt x 189.21843pt.
  [3 <./images/current_demo.png>]
 <images/hti_bct_htirise.png, id=69, 1725.44624pt x 648.4225pt>
 File: images/hti_bct_htirise.png Graphic file (type png)
 <use images/hti_bct_htirise.png>
-Package pdftex.def Info: images/hti_bct_htirise.png  used on input line 250.
+Package pdftex.def Info: images/hti_bct_htirise.png  used on input line 172.
 (pdftex.def)             Requested size: 364.19737pt x 136.86533pt.
 <images/hti_bct_htifall.png, id=70, 1725.44624pt x 648.4225pt>
 File: images/hti_bct_htifall.png Graphic file (type png)
 <use images/hti_bct_htifall.png>
-Package pdftex.def Info: images/hti_bct_htifall.png  used on input line 262.
+Package pdftex.def Info: images/hti_bct_htifall.png  used on input line 180.
 (pdftex.def)             Requested size: 364.19737pt x 136.86533pt.
 <images/bct_oven_hti.png, id=71, 1725.44624pt x 648.4225pt>
 File: images/bct_oven_hti.png Graphic file (type png)
 <use images/bct_oven_hti.png>
-Package pdftex.def Info: images/bct_oven_hti.png  used on input line 271.
+Package pdftex.def Info: images/bct_oven_hti.png  used on input line 188.
 (pdftex.def)             Requested size: 364.19737pt x 136.86533pt.
 <images/bct_oven_hti_2dim.png, id=72, 1725.44624pt x 648.4225pt>
 File: images/bct_oven_hti_2dim.png Graphic file (type png)
 <use images/bct_oven_hti_2dim.png>
-Package pdftex.def Info: images/bct_oven_hti_2dim.png  used on input line 282.
+Package pdftex.def Info: images/bct_oven_hti_2dim.png  used on input line 196.
 (pdftex.def)             Requested size: 364.19737pt x 136.86533pt.
 <images/gas_oven_hti.png, id=73, 1725.44624pt x 648.4225pt>
 File: images/gas_oven_hti.png Graphic file (type png)
 <use images/gas_oven_hti.png>
-Package pdftex.def Info: images/gas_oven_hti.png  used on input line 293.
+Package pdftex.def Info: images/gas_oven_hti.png  used on input line 205.
 (pdftex.def)             Requested size: 364.19737pt x 136.86533pt.
  [4 <./images/current_demo_2.png> <./images/hti_bct_htirise.png>] [5 <./images/
 hti_bct_htifall.png> <./images/bct_oven_hti.png> <./images/bct_oven_hti_2dim.pn
@@ -1322,81 +1330,82 @@ g> <./images/gas_oven_hti.png>]
 <images/oven1example_05112018.png, id=95, 1120.9378pt x 922.19531pt>
 File: images/oven1example_05112018.png Graphic file (type png)
 <use images/oven1example_05112018.png>
-Package pdftex.def Info: images/oven1example_05112018.png  used on input line 3
-16.
+Package pdftex.def Info: images/oven1example_05112018.png  used on input line 2
+18.
 (pdftex.def)             Requested size: 364.19785pt x 299.6255pt.
 <images/oven1example_logbook_05112018.png, id=96, 234.1247pt x 39.89906pt>
 File: images/oven1example_logbook_05112018.png Graphic file (type png)
 <use images/oven1example_logbook_05112018.png>
 Package pdftex.def Info: images/oven1example_logbook_05112018.png  used on inpu
-t line 320.
+t line 222.
 (pdftex.def)             Requested size: 187.31071pt x 31.9211pt.
 <images/gas_example_02112018.png, id=97, 1120.185pt x 922.19531pt>
 File: images/gas_example_02112018.png Graphic file (type png)
 <use images/gas_example_02112018.png>
-Package pdftex.def Info: images/gas_example_02112018.png  used on input line 33
-5.
+Package pdftex.def Info: images/gas_example_02112018.png  used on input line 23
+3.
 (pdftex.def)             Requested size: 364.19255pt x 299.8225pt.
  [6 <./images/oven1example_05112018.png (PNG copy)> <./images/oven1example_logb
 ook_05112018.png (PNG copy)>]
 <images/oven_discrete_nov2016.png, id=107, 1422.9963pt x 739.3221pt>
 File: images/oven_discrete_nov2016.png Graphic file (type png)
 <use images/oven_discrete_nov2016.png>
-Package pdftex.def Info: images/oven_discrete_nov2016.png  used on input line 3
-54.
+Package pdftex.def Info: images/oven_discrete_nov2016.png  used on input line 2
+43.
 (pdftex.def)             Requested size: 364.19461pt x 189.21843pt.
 <images/rf_discrete_nov2016.png, id=108, 1422.9963pt x 739.3221pt>
 File: images/rf_discrete_nov2016.png Graphic file (type png)
 <use images/rf_discrete_nov2016.png>
-Package pdftex.def Info: images/rf_discrete_nov2016.png  used on input line 362
+Package pdftex.def Info: images/rf_discrete_nov2016.png  used on input line 250
 .
 (pdftex.def)             Requested size: 364.19461pt x 189.21843pt.
  [7 <./images/gas_example_02112018.png (PNG copy)>] [8 <./images/oven_discrete_
-nov2016.png> <./images/rf_discrete_nov2016.png>]
+nov2016.png> <./images/rf_discrete_nov2016.png>] [9]
 Package microtype Info: Character `029' is missing
 (microtype)             in font `T1/lmr/m/sc/12'.
 (microtype)             Ignoring protrusion settings for this character.
-LaTeX Font Info:    Try loading font information for T1+lmtt on input line 432.
+LaTeX Font Info:    Try loading font information for T1+lmtt on input line 311.
 
 
 (/usr/share/texmf/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [9]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 434.
- [10]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 434.
+) [10]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 313.
+ [11]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 313.
  (./roadmap.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 434.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 434.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 313.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 313.
 Package logreq Info: Writing requests to 'roadmap.run.xml'.
 \openout1 = `roadmap.run.xml'.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 434.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 313.
  ) 
 Here is how much of TeX's memory you used:
- 20749 strings out of 494847
- 330242 string characters out of 6179079
- 766374 words of memory out of 5000000
- 23643 multiletter control sequences out of 15000+600000
- 65841 words of font info for 115 fonts, out of 8000000 for 9000
+ 20896 strings out of 494847
+ 332868 string characters out of 6179079
+ 770278 words of memory out of 5000000
+ 23757 multiletter control sequences out of 15000+600000
+ 87846 words of font info for 138 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
- 45i,6n,45p,943b,1274s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 45i,6n,45p,1202b,1276s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}{/usr/share/texmf/fonts/enc/dv
-ips/lm/lm-mathex.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/s
-hare/texmf/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/share/texmf/fonts/enc/dvips/l
+ips/lm/lm-mathit.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/s
+hare/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/share/texmf/fonts/enc/dvips/l
 m/lm-rm.enc}</usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texm
 f/fonts/type1/public/lm/lmcsc10.pfb></usr/share/texmf/fonts/type1/public/lm/lme
 x10.pfb></usr/share/texmf/fonts/type1/public/lm/lmmi12.pfb></usr/share/texmf/fo
-nts/type1/public/lm/lmmi8.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb
-></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type
-1/public/lm/lmr17.pfb></usr/share/texmf/fonts/type1/public/lm/lmr8.pfb></usr/sh
-are/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf/fonts/type1/public
-/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt12.pfb></usr/share/t
-exlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on roadmap.pdf (10 pages, 1566787 bytes).
+nts/type1/public/lm/lmmi8.pfb></usr/share/texmf/fonts/type1/public/lm/lmmib10.p
+fb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf/fonts/ty
+pe1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr17.pfb></usr
+/share/texmf/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf/fonts/type1/publi
+c/lm/lmri12.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb></usr/share/
+texmf/fonts/type1/public/lm/lmtt12.pfb></usr/share/texlive/texmf-dist/fonts/typ
+e1/public/amsfonts/symbols/msbm10.pfb>
+Output written on roadmap.pdf (11 pages, 1582089 bytes).
 PDF statistics:
- 257 PDF objects out of 1000 (max. 8388607)
- 206 compressed objects within 3 object streams
- 61 named destinations out of 1000 (max. 500000)
- 16538 words of extra memory for PDF output out of 17280 (max. 10000000)
+ 300 PDF objects out of 1000 (max. 8388607)
+ 247 compressed objects within 3 object streams
+ 71 named destinations out of 1000 (max. 500000)
+ 16570 words of extra memory for PDF output out of 17280 (max. 10000000)
 
