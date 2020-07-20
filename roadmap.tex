@@ -281,17 +281,17 @@ Typically there are two approaches to change point detection: Either, one specif
 \subsection{Bayesian Online Change Point Detection}\label{bayesian-online-changepoint-detection}}
 
 \subsubsection{Bayesian Statistics}
-Bayesian statistics is a branch of statistics makes use of Bayes' theorem to update its beliefs.
+Bayesian statistics is a branch of statistics which makes use of Bayes' theorem to update its beliefs.
 
 \begin{equation*}
 P\left(A \mid B\right)=\frac{P\left(B \mid A\right)P\left(A\right)}{P\left(B\right)}
 \end{equation*}
 
-In conventional statistics, one has $n$ observations of a random variable $ x = \left(x_1, \dots x_n\right)$ coming from some probability distribution with unknown parameter $\bm\theta$ (which can be multidimensional, e.g. $\bm\theta=\left(\mu, \sigma \right)$ for the normal distribution). This parameter is treated as an unknown, but fixed variable. In Bayesian statistics however, the parameter is treated as well, so we can give meaning to $P\left(\bm\theta \mid x\right)$. It is the probability of $\bm\theta$ being the parameter of the distribution of the $x_i$, given all our observations. Hence, we have by Bayes theorem
+In conventional statistics, one has $n$ observations of a random variable $ x = \left(x_1, \dots x_n\right)$ coming from some probability distribution with unknown parameter $\bm\theta$ (which can be multidimensional, e.g. $\bm\theta=\left(\mu, \sigma^2 \right)$ for the normal distribution). This parameter is treated as an unknown, but fixed variable. In Bayesian statistics however, the parameter is treated as well, so we can give meaning to $P\left(\bm\theta \mid x\right)$. It is the probability of $\bm\theta$ being the parameter of the distribution of the $x_i$, given all our observations. Hence, we have by Bayes theorem
 
-\begin{equation*}
+\begin{equation} \label{eq:posterior_distribution}
 P\left(\bm \theta \mid x\right)=\frac{P\left(x \mid \bm\theta\right)P\left(\bm \theta\right)}{P\left(x\right)} \propto P\left(x \mid \bm\theta\right)P\left(\bm \theta\right)
-\end{equation*}
+\end{equation}
 
 $P\left(x \mid \bm\theta\right)$ is called the likelihood, and it encodes our model of the reality, in how we think that $x$ depend on $\bm\theta$. For the (stable) beam current we could for example assume that it is normally distributed with some parameters $\mu, \sigma$. $P\left(\bm \theta\right)$ is called the prior distribution. It contains the knowledge we have about our parameter $\bm\theta$. For example what we observed about the currents mean and standard deviation in the last hour. Finally, $P\left(\bm \theta \mid x\right)$ is called the posterior distribution. It can be seen as an update of our observations on $\bm\theta$ with new knowledge coming from $x$.
 
@@ -299,7 +299,55 @@ The nice thing about Bayesian statistics is that we can reuse the posterior dist
 
 \subsection{Algorithm}
 
-Based on this idea, Adams and MacKay proposed an online change point detection algorithm \cite{Adams:BayesianOnlineChangepoint}. They introduce the concept of \textit{run lengths}. At a given point in time $t$ the runlength $r_t$ gives the number of time steps that passed since the last change point happened. If the run length is known, at $t+1$ only two things are possible: $r_{t+1}=r_t + 1$ (no change point happened) or $r_{t+1}=0$ (there was a change point). The algorithm computes at each step $t$ the run length distribution $P(r_t \mid x_1,\dots,x_t)$, i.e. the probability of having a run length $r_t$ having observed everything that happened up to time $t$.
+Based on this idea, Adams and MacKay proposed an online change point detection algorithm \cite{Adams:BayesianOnlineChangepoint}. They introduce the concept of \textit{run lengths}. At a given point in time $t$ the run length $r_t$ gives the number of time steps that passed since the last change point happened. During one run, we assume that all observations come from the same distribution.
+
+If the run length is known, at $t+1$ only two things are possible: $r_{t+1}=r_t + 1$ (no change point happened) or $r_{t+1}=0$ (there was a change point). The algorithm computes at each step $t$ the run length distribution $P(r_t \mid x_1,\dots,x_t)$, i.e. the probability of having a run length $r_t$ having observed everything that happened up to time $t$, see figure \ref{fig:runlength_example}.
+
+\begin{figure}
+	\centering
+	\includegraphics{images/runlength_example.png}
+	\caption{Explanation of the run length, figure taken from \cite{Adams:BayesianOnlineChangepoint}. In (a) you can see a time series with two change points at $t=5$ and $t=11$. In (b) the true run length can be seen. Notice that when a change point occurs, the run length drops to zero. (c) shows all run lengths that are possible at a given time $t$. The algorithm introduced in \cite{Adams:BayesianOnlineChangepoint} computes the probability of each node in the graph.}
+	\label{fig:runlength_example}
+\end{figure}
+
+By definition of the conditional probability we have ($x_1,\dots,x_t \equiv \bm x_{1:t}$)
+
+\begin{equation*}
+	P(r_t \mid \bm x_{1:t}) = \frac{P(r_t, \bm x_{1:t})}{P(\bm x_{1:t})}
+\end{equation*}
+
+and the nominator can be computed recursively (see equation (3) in \cite{Adams:BayesianOnlineChangepoint}) as
+\begin{equation}\label{eq:prob_rt_and_x1t}
+	P(r_t, x_{1:t}) = \sum_{r_{t-1}} P(r_t \mid r_{t-1}) P(x_t \mid r_{t-1}, x_t^{(r)}) P(r_{t-1}, x_{1:t-1})
+\end{equation}
+while the denominator can be seen as a scaling factor. $x_t^{(r)}$ denotes the set of observations associated with the run $r_t$. To apply the algorithm it helps to understand some technicalities, which I try to explain below. However I recommend reading a little bit (for example on wikipedia) about Hazard functions and more importantly conjugate priors.
+
+\subsubsection{Hazard function}
+The first term in the sum, $P(r_t \mid r_{t-1})$,  is called the change point prior and it encodes the information or intuition we have about the distribution of the change points. At any given time $t$, we can have only $r_t=r_{t-1} + 1$ or $r_t=0$. So something called a hazard function $H$ is introduced, that encodes the probability that a change point happened (The name hazard is because one can model like this the breaking probability of a mechanic piece which will probably depend on its lifetime). Then one can write
+
+\begin{equation*}
+	P(r_t \mid r_{t-1}) = \begin{cases}
+		H(r_{t-1} + 1) &\text{if } r_t=0, \\
+		1 - H(r_{t-1} + 1) &\text{if } r_t=r_{t-1} + 1 \text{ (no changpoint)},  \\
+		0, & \text{else} 
+	\end{cases}
+\end{equation*}
+
+For the ion source it probably makes sense to model the change points distribution as an exponential distribution, meaning that at each time step there is a change of probability $p$ for a new regime to start. However, one could improve this by making the hazard function dependent for example on a rising on the HT current, as a rising current seams to make drops in intensity more likely. But for the easy case without any assumption, only a sensible value for $p$ needs to be determined. As for the exponential distribution we have $\mu=\frac1p$, one can choose $p$ as one over the average time between change points, e.g. $4$ hours. The algorithm doesn't seem to be to be very sensible to the exact value of $p$, as long as it is chosen reasonably. In this exponential case, the hazard function is just $H(y)\equiv p$, so it is constant.
+
+\subsubsection{Conjugate Priors}\label{sec:conjugate_priors}
+The first term in the sum of equation \eqref{eq:prob_rt_and_x1t}, $P(x_t \mid r_{t-1}, x_t^{(r)})$, gives the probability of observing an new value $x_t$, given that we have run length $r_{t-1}$ and that for this run length we observed the values $x_t^{(r)}$. To calculate this, we need to decide how our data is distributed during one run. 
+
+In case of the beam current, it makes sense to assume it is normally distributed with unknown mean $\mu$ and variance $\sigma^2$. Using the first few points of the run, we could estimate these two parameters, call them $\bar\mu$ and $\bar\sigma^2$, and then say that for the whole run we have $P(x_t \mid r_{t-1}, x_t^{(r)}) \sim Normal(\bar\mu, \bar\sigma^2)$. This would be one very likely Normal distribution the data could come from, but as we only estimated the parameters, there is some uncertainty involved. Hence it would make sense to use a weighted average distribution of all possible parameters, and for this we can use equation \eqref{eq:posterior_distribution}.
+
+\begin{equation}\label{eq:pred_posterior}
+\begin{aligned}
+	P(x_t \mid r_{t-1}, x_t^{(r)}) &= \int_\theta P(x_t \mid \theta) P(\theta \mid r_{t-1}, x_t^{(r)}) d\theta \\
+								   &= \int_\theta P(x_t \mid \theta) \frac{P(r_{t-1}, x_t^{(r)} \mid \theta)P(\theta)}{P(r_{t-1}, x_t^{(r)})}  d\theta
+\end{aligned}
+\end{equation}
+
+Now, the important this to understand here, is that this integral can be very difficult to calculate and can be typically only been simulated numerically. But, if one chooses
 
 \hypertarget{suffix-arrays}{%
 \section{Suffix arrays}\label{suffix-arrays}}
