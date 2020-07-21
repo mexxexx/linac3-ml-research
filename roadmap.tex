@@ -293,9 +293,7 @@ In conventional statistics, one has $n$ observations of a random variable $ x = 
 P\left(\bm \theta \mid x\right)=\frac{P\left(x \mid \bm\theta\right)P\left(\bm \theta\right)}{P\left(x\right)} \propto P\left(x \mid \bm\theta\right)P\left(\bm \theta\right)
 \end{equation}
 
-$P\left(x \mid \bm\theta\right)$ is called the likelihood, and it encodes our model of the reality, in how we think that $x$ depend on $\bm\theta$. For the (stable) beam current we could for example assume that it is normally distributed with some parameters $\mu, \sigma$. $P\left(\bm \theta\right)$ is called the prior distribution. It contains the knowledge we have about our parameter $\bm\theta$. For example what we observed about the currents mean and standard deviation in the last hour. Finally, $P\left(\bm \theta \mid x\right)$ is called the posterior distribution. It can be seen as an update of our observations on $\bm\theta$ with new knowledge coming from $x$.
-
-The nice thing about Bayesian statistics is that we can reuse the posterior distribution as a prior when we observe a new data point, and this way continuously update our beliefs about the parameters we are interested in. Also, since we calculate a probability distribution for our parameter, we get an estimate of uncertainty "for free", which can be useful to quantify the value of our results. For a more thorough introduction see \cite{Spiegelhalter:Bayesianstatistics,Brooks-Bartlett:Probabilityconceptsexplained}.
+$P\left(x \mid \bm\theta\right)$ is called the likelihood, and it encodes our model of the reality, in how we think that $x$ depend on $\bm\theta$. For the (stable) beam current we could for example assume that it is normally distributed with some parameters $\mu, \sigma$ were we estimate these values by looking at data from the last hour. $P\left(\bm \theta\right)$ is called the prior distribution. It contains the knowledge we have about our parameter $\bm\theta$, by telling us, how likely a parameter is. For example an average beam current in the order of 1A is very unlikely, whereas an average current around 100mA is much more likely).  Finally, $P\left(\bm \theta \mid x\right)$ is called the posterior distribution. It can be seen as an update of our observations on $\bm\theta$ with new knowledge coming from $x$. For a more thorough introduction see \cite{Spiegelhalter:Bayesianstatistics,Brooks-Bartlett:Probabilityconceptsexplained}.
 
 \subsection{Algorithm}
 
@@ -347,7 +345,11 @@ In case of the beam current, it makes sense to assume it is normally distributed
 \end{aligned}
 \end{equation}
 
-Now, the important this to understand here, is that this integral can be very difficult to calculate and can be typically only been simulated numerically. But, if one chooses
+Now, the important this to understand here, is that this integral can be very difficult to calculate and can be typically only been simulated numerically. But, for some combinations of likelihoods and priors, the result has an algebraic representation making random sampling unnecessary. If this is the case, one calls the prior a \textit{conjugate prior}. There can be found lists (eg. \cite{Fink:CompendiumConjugatePriors}) of such pairs and how the parameters need to be updated. It is important to still have in mind that the likelihood and prior should be chosen to reflect reality.
+
+Here is a short example where the likelihood is a normal with unknown mean $\mu$ and variance $\sigma^2$, as this is used in many implementations of the Algorithm and makes sense for the ion source data. Assume that we observed $\nu=100$ data points and calculated a mean of $\hat\mu=10$ and a standard deviation of $\hat\sigma^2=0.1$. This means that the sum of squares~$\beta := \sum_{i=1}^{100} (x_i - \hat\mu)^2=100*\hat\sigma^2=10$. We now need prior distributions for $\mu$ and $\sigma^2$ of our normal model. We can make the following assumptions: $\hat\sigma^2 \sim InverseGamma(\frac\nu2, \beta)$ If one looks at a graph of the probability density function of the Inverse Gamma with the parameters $50$ and $10$, one can see the graph has a bump around $0.1$, so we can actually interpret it as our uncertainty in the calculated variance! 
+
+From this, it follows that $(x, \hat\sigma^2) \sim NormalInverseGamma(\hat\mu, \nu, \frac\nu2, \beta)$ by the definition of the Normal-Inverse-Gamma distribution. 
 
 \hypertarget{suffix-arrays}{%
 \section{Suffix arrays}\label{suffix-arrays}}
