@@ -124,7 +124,7 @@ There exists a very good Python library called \emph{stumpy} for computing the M
 author. The Github page can be found here~\cite{Law:stumpy}.
 
 \hypertarget{how-could-the-mp-be-used}{%
-\subsection{How could the MP beused?}\label{how-could-the-mp-be-used}}
+\subsection{How could the MP be used?}\label{how-could-the-mp-be-used}}
 
 As described above, the MP profile is a tool that can help to discover repeating or anomalous patterns in time series data. Hence we can aim to apply it to any of the many time series produced by the source.
 
@@ -287,13 +287,13 @@ Bayesian statistics is a branch of statistics which makes use of Bayes' theorem 
 P\left(A \mid B\right)=\frac{P\left(B \mid A\right)P\left(A\right)}{P\left(B\right)}
 \end{equation*}
 
-In conventional statistics, one has $n$ observations of a random variable $ x = \left(x_1, \dots x_n\right)$ coming from some probability distribution with unknown parameter $\bm\theta$ (which can be multidimensional, e.g. $\bm\theta=\left(\mu, \sigma^2 \right)$ for the normal distribution). This parameter is treated as an unknown, but fixed variable. In Bayesian statistics however, the parameter is treated as well, so we can give meaning to $P\left(\bm\theta \mid x\right)$. It is the probability of $\bm\theta$ being the parameter of the distribution of the $x_i$, given all our observations. Hence, we have by Bayes theorem
+In conventional statistics, one has $n$ observations of a random variable $ x = \left(x_1, \dots x_n\right)$ coming from some probability distribution with unknown parameter $\bm{{\theta}}$ (which can be multidimensional, e.g. $\bm{{\theta}}=\left(\mu, \sigma^2 \right)$ for the normal distribution). This parameter is treated as an unknown, but fixed variable. In Bayesian statistics however, the parameter is treated as well, so we can give meaning to $P\left(\bm{{\theta}} \mid x\right)$. It is the probability of $\bm{{\theta}}$ being the parameter of the distribution of the $x_i$, given all our observations. Hence, we have by Bayes theorem
 
 \begin{equation} \label{eq:posterior_distribution}
-P\left(\bm \theta \mid x\right)=\frac{P\left(x \mid \bm\theta\right)P\left(\bm \theta\right)}{P\left(x\right)} \propto P\left(x \mid \bm\theta\right)P\left(\bm \theta\right)
+	P\left(\bm {{\theta}} \mid x\right)=\frac{P\left(x \mid \bm{{\theta}}\right)P\left(\bm {{\theta}}\right)}{P\left(x\right)} \propto P\left(x \mid \bm{{\theta}}\right)P\left(\bm {{\theta}}\right)
 \end{equation}
 
-$P\left(x \mid \bm\theta\right)$ is called the likelihood, and it encodes our model of the reality, in how we think that $x$ depend on $\bm\theta$. For the (stable) beam current we could for example assume that it is normally distributed with some parameters $\mu, \sigma$ were we estimate these values by looking at data from the last hour. $P\left(\bm \theta\right)$ is called the prior distribution. It contains the knowledge we have about our parameter $\bm\theta$, by telling us, how likely a parameter is. For example an average beam current in the order of 1A is very unlikely, whereas an average current around 100mA is much more likely).  Finally, $P\left(\bm \theta \mid x\right)$ is called the posterior distribution. It can be seen as an update of our observations on $\bm\theta$ with new knowledge coming from $x$. For a more thorough introduction see \cite{Spiegelhalter:Bayesianstatistics,Brooks-Bartlett:Probabilityconceptsexplained}.
+$P\left(x \mid \bm{{\theta}}\right)$ is called the likelihood, and it encodes our model of the reality, in how we think that $x$ depend on $\bm{{\theta}}$. For the (stable) beam current we could for example assume that it is normally distributed with some parameters $\mu, \sigma$ were we estimate these values by looking at data from the last hour. $P\left(\bm {{\theta}}\right)$ is called the prior distribution. It contains the knowledge we have about our parameter $\bm{{\theta}}$, by telling us, how likely a parameter is. For example an average beam current in the order of 1A is very unlikely, whereas an average current around 100mA is much more likely).  Finally, $P\left(\bm {{\theta}} \mid x\right)$ is called the posterior distribution. It can be seen as an update of our observations on $\bm{{\theta}}$ with new knowledge coming from $x$. For a more thorough introduction see \cite{Spiegelhalter:Bayesianstatistics,Brooks-Bartlett:Probabilityconceptsexplained}.
 
 \subsection{Algorithm}
 
@@ -303,25 +303,25 @@ If the run length is known, at $t+1$ only two things are possible: $r_{t+1}=r_t 
 
 \begin{figure}
 	\centering
-	%\includegraphics{images/runlength_example.png}
+	\includegraphics{images/runlength_example.png}
 	\caption{Explanation of the run length, figure taken from \cite{Adams:BayesianOnlineChangepoint}. In (a) you can see a time series with two change points at $t=5$ and $t=11$. In (b) the true run length can be seen. Notice that when a change point occurs, the run length drops to zero. (c) shows all run lengths that are possible at a given time $t$. The algorithm introduced in \cite{Adams:BayesianOnlineChangepoint} computes the probability of each node in the graph.}
 	\label{fig:runlength_example}
 \end{figure}
 
-By definition of the conditional probability we have ($x_1,\dots,x_t \equiv \bm x_{1:t}$)
+By definition of the conditional probability we have ($x_1,\dots,x_t \equiv \bm{{ x_{1:t}}}$)
 
 \begin{equation*}
-	P(r_t \mid \bm x_{1:t}) = \frac{P(r_t, \bm x_{1:t})}{P(\bm x_{1:t})}
+	P(r_t \mid \bm{{x_{1:t}}}) = \frac{P(r_t, \bm{{ x_{1:t}}})}{P(\bm{{x_{1:t}}})}
 \end{equation*}
 
 and the nominator can be computed recursively (see equation (3) in \cite{Adams:BayesianOnlineChangepoint}) as
 \begin{equation}\label{eq:prob_rt_and_x1t}
 	P(r_t, x_{1:t}) = \sum_{r_{t-1}} P(r_t \mid r_{t-1}) P(x_t \mid r_{t-1}, x_t^{(r)}) P(r_{t-1}, x_{1:t-1})
 \end{equation}
-while the denominator can be seen as a scaling factor. $x_t^{(r)}$ denotes the set of observations associated with the run $r_t$. To apply the algorithm it helps to understand some technicalities, which I try to explain below. However I recommend reading a little bit (for example on wikipedia) about Hazard functions and more importantly conjugate priors.
+while the denominator can be seen as a scaling factor. $x_t^{(r)}$ denotes the set of observations associated with the run $r_t$ (The notation in the paper is slightly confusing. To be precise $x_t^{(r)} \equiv (x_{t-r_t}, \dots, x_{t-1})$, so the most recent observation is explicitly not included!). To apply the algorithm it helps to understand some technicalities, which I try to explain below. However I recommend reading a little bit (for example on wikipedia) about Hazard functions and more importantly conjugate priors.
 
 \subsubsection{Hazard function}
-The first term in the sum, $P(r_t \mid r_{t-1})$,  is called the change point prior and it encodes the information or intuition we have about the distribution of the change points. At any given time $t$, we can have only $r_t=r_{t-1} + 1$ or $r_t=0$. So something called a hazard function $H$ is introduced, that encodes the probability that a change point happened (The name hazard is because one can model like this the breaking probability of a mechanic piece which will probably depend on its lifetime). Then one can write
+The first term in the sum, $P(r_t \mid r_{t-1})$,  is called the change point prior and it encodes the information or intuition we have about the distribution of the change points. At any given time $t$, we can have only $r_t=r_{t-1} + 1$ or $r_t=0$. We introduce a hazard function $H$ that encodes the probability that a change point happened at a given run length. Then one can write
 
 \begin{equation*}
 	P(r_t \mid r_{t-1}) = \begin{cases}
@@ -336,27 +336,77 @@ For the ion source it probably makes sense to model the change points distributi
 \subsubsection{Conjugate Priors}\label{sec:conjugate_priors}
 The first term in the sum of equation \eqref{eq:prob_rt_and_x1t}, $P(x_t \mid r_{t-1}, x_t^{(r)})$, gives the probability of observing an new value $x_t$, given that we have run length $r_{t-1}$ and that for this run length we observed the values $x_t^{(r)}$. To calculate this, we need to decide how our data is distributed during one run. 
 
-In case of the beam current, it makes sense to assume it is normally distributed with unknown mean $\mu$ and variance $\sigma^2$. Using the first few points of the run, we could estimate these two parameters, call them $\bar\mu$ and $\bar\sigma^2$, and then say that for the whole run we have $P(x_t \mid r_{t-1}, x_t^{(r)}) \sim Normal(\bar\mu, \bar\sigma^2)$. This would be one very likely Normal distribution the data could come from, but as we only estimated the parameters, there is some uncertainty involved. Hence it would make sense to use a weighted average distribution of all possible parameters, and for this we can use equation \eqref{eq:posterior_distribution}.
+In case of the beam current, it makes sense to assume it is normally distributed with unknown mean $\mu$ and variance $\sigma^2$. Using the first few points of the run, we could estimate these two parameters, call them $\bar\mu$ and $\bar\sigma^2$, and then say that for the whole run we have $x_t \mid r_{t-1}, x_t^{(r)} \sim Normal(\bar\mu, \bar\sigma^2)$. This would be one very likely Normal distribution the data could come from, but as we only estimated the parameters, there is some uncertainty involved. Hence it would make sense to use a weighted average distribution of all possible parameters.
 
 \begin{equation}\label{eq:pred_posterior}
 \begin{aligned}
-	P(x_t \mid r_{t-1}, x_t^{(r)}) &= \int_\theta P(x_t \mid \theta) P(\theta \mid r_{t-1}, x_t^{(r)}) d\theta \\
-								   &= \int_\theta P(x_t \mid \theta) \frac{P(r_{t-1}, x_t^{(r)} \mid \theta)P(\theta)}{P(r_{t-1}, x_t^{(r)})}  d\theta
+	P(x_t \mid r_{t-1}, x_t^{(r)}) &= \int_\theta P(x_t \mid \theta) P(\theta \mid r_{t-1}, x_t^{(r)}) d\theta
 \end{aligned}
 \end{equation}
 
-Now, the important this to understand here, is that this integral can be very difficult to calculate and can be typically only been simulated numerically. But, for some combinations of likelihoods and priors, the result has an algebraic representation making random sampling unnecessary. If this is the case, one calls the prior a \textit{conjugate prior}. There can be found lists (eg. \cite{Fink:CompendiumConjugatePriors}) of such pairs and how the parameters need to be updated. It is important to still have in mind that the likelihood and prior should be chosen to reflect reality.
+This integral can be very difficult to calculate and can be typically only been simulated numerically. But, for some combinations of likelihoods and priors, the result has an algebraic representation making random sampling unnecessary. If this is the case, one calls the prior a \textit{conjugate prior}. There can be found lists (eg. \cite{Fink:CompendiumConjugatePriors}) of such pairs and how the parameters need to be updated. It is important to still have in mind that the likelihood and prior should be chosen to reflect reality.
 
-Here is a short example where the likelihood is a normal with unknown mean $\mu$ and variance $\sigma^2$, as this is used in many implementations of the Algorithm and makes sense for the ion source data. Assume that we observed $\nu=100$ data points and calculated a mean of $\hat\mu=10$ and a standard deviation of $\hat\sigma^2=0.1$. This means that the sum of squares~$\hat\beta := \sum_{i=1}^{100} (x_i - \hat\mu)^2=\nu*\hat\sigma^2=10$. 
+Here is a short example where the likelihood is a normal with unknown mean $\mu$ and variance $\sigma^2$, as this is used in many implementations of the Algorithm and makes sense for the ion source data. For a more complete derivation see \cite{Murphy:ConjugateBayesiananalysis}. The conjugate prior in this case is the \textit{Normal-Inverse-Gamma Distribution}.
 
-We now need prior distributions for $\mu$ and $\sigma^2$ of our normal model. If one looks at the tables, we can see that in this setting (assuming the observed values are normally distributed with unknown mean and variance), the conjugate prior distributions for the pair $(\mu,\sigma^2)$ is the \textit{Normal-Inverse-Gamma} distribution. What does this mean? It means, that 
+This distribution has for parameters that we will explain here. Assume that we used $\nu=100$ data points to calculate a mean of $\hat\mu=10$ and $2\alpha=100$ (so $\alpha=50$) observations to calculate a variance of $\hat\sigma^2=0.1$. We can thus calculate the sum of squares~$$2\hat\beta := \sum_{i=1}^{100} (x_i - \hat\mu)^2=2\alpha*\hat\sigma^2=10 \Rightarrow \hat\beta=5.$$
+
+As $\mu$ and $\sigma^2$ are unknown, it makes sense to encode our uncertainty using distributions. We want the pair $(\mu, \sigma^2)$ to be distributed with the Normal-Inverse-Gamma distribution, so the following has to hold
 \begin{gather*}
-	\sigma^2 \sim InverseGamma(\nu, \beta) \\ 
-	\mu \mid \sigma^2 \sim Normal(\hat\mu, \sigma^2).
+	\sigma^2 \mid \alpha, \beta \sim InverseGamma(\alpha, \beta) \\ 
+	\mu \mid \sigma^2, \hat\mu, \nu \sim Normal(\hat\mu, \frac{\sigma^2}{\nu}).
 \end{gather*}
-If one looks at the probability distribution of the inverse Gamma with these parameters, one can see that it is zero except for a bump around our estimated variance $\hat\sigma^2$, so it is a reasonable choice to encode our uncertainty about our estimate. Similar the distribution of $\mu$ as a normal centered around $\hat\mu$ shows our uncertainty about this estimate, and if the variance of our measurements increase, this uncertainty increases. So this choice of prior seems to have a reasonable real world interpretation and we can hence use it in our calculations.
 
-If one assumes this likelihood and prior pair (Normal and Normal-Inverse-Gamma)
+\begin{figure}
+	\centering
+	\includegraphics{images/invgamma_example.png}
+	\caption{Probability density function of an Inverse Gamma distribution with parameters $\alpha=50$ and $\beta=5$. This can be seen as an uncertainty (likelihood) of a estimated variance of $0.1$ using $100$ samples.}
+	\label{fig:invgamma_example}
+\end{figure}
+
+If one looks at the probability distribution of the Inverse Gamma with these parameters, one can see that it is zero except for a bump around our estimated variance $\hat\sigma^2$, so it is a reasonable choice to encode our uncertainty about our estimate (see Figure \ref{fig:invgamma_example}). Similar the distribution of $\mu$ as a normal centered around $\hat\mu$ shows our uncertainty about this estimate, and if the variance of our measurements increase, this uncertainty increases, while the more observations ($\nu$) we use to estimate the mean, our uncertainty decreases. So this choice of prior seems to have a reasonable real world interpretation and we can hence use it in our calculations.
+
+In this case (for derivation see e.g. \cite{Murphy:ConjugateBayesiananalysis}) we know that
+\begin{equation} \label{eg:xt_t_distribution}
+x_t \mid r_{t-1}, x_{t}^{(r)} \sim t_{2\alpha}\left(\hat\mu, \frac{\hat\beta(\nu + 1)}{\alpha\nu}\right),
+\end{equation}
+that is a scaled and shifted Student-t distribution with $2\alpha$ degrees of freedom. Since we know the distribution, we do not need to calculate the Integral in \eqref{eq:pred_posterior} anymore.
+
+Since the algorithm is a streaming algorithm, we sequentially observe new values. Every time a new value $x$ comes in, we update the parameters using the following rules, which follow directly from what the parameters represent:
+
+\begin{equation*}
+\begin{gathered}
+\nu' \leftarrow \nu + 1 \\
+\mu' \leftarrow \frac{\nu \mu + x}{\nu + 1} \\
+\alpha' \leftarrow \alpha + \frac12 \\
+\beta' \leftarrow \beta + \frac{\nu}{\nu + 1} \frac{(x - \mu)^2}{2}
+\end{gathered}
+\end{equation*}
+
+\subsection{Generalizations}
+There are various resources that extend the BOCPD algorithm that could be interesting. 
+
+In \cite{Knoblauch:SpatiotemporalBayesian} a unification the Algorithm by Adams and MacKay (\cite{Adams:BayesianOnlineChangepoint}) with \cite{Fearnhead:lineinferencemultiple,Fearnhead:lineinferencemultiple} to create a method that allows selecting different models for each segment. Furthermore they present a method to extend BOCPD to multiple dimensions.
+
+In \cite{Knoblauch:DoublyRobustBayesian} an approach to mitigate the problem of outliers is presented. Bayesian Interference can be seen as a minimization problem over all distributions (see the cited paper) and by changing the metric that is used an alternative definition that is more robust can be used. More motivation on this topic can be found in \cite{Knoblauch:GeneralizedVariationalInference}.
+
+The problem of outliers is also tackled in \cite{Fearnhead:ChangepointDetectionPresence}, however this is not a Bayesian setting anymore.
+
+\subsection{Applying BOCPD}
+As the basic version of the algorithm does not require setting any hyper parameters, it can be applied easily. In the setting of the Linac3 Source we decided to model the current as normally distributed iid. variables with unknown mean and variance between the change points, and the change points as an exponential distribution. For the parameter of the Hazard function values in the order of multiple hours produce good results, and in this range the algorithm is not very sensible.
+
+\begin{figure}
+	\centering
+	\includegraphics{images/bocd_example.png}
+	\caption{The BOCPD Algorithm applied to around seven hours of BCT05 current from September 2018 (sampled at 10s), where drops due to voltage breakdowns were removed. The black lines in the upper plot show the determined change points. In the upper plot the posterior run length distribution is plotted on a logarithmic color scale. Darker pixels indicate a higher probability.}
+	\label{fig:invgamma_example}
+\end{figure}
+
+The paper \cite{Adams:BayesianOnlineChangepoint} does not propose a strategy to transform the run length probabilities into change point locations. There are several ways how this could be done.
+
+One method is to set a delay of $d$ time steps. After processing a new data point, one compares the probability of being in a run with length $d$ (i.e. the value $r_d$) to a threshold, and if the probability is high enough it is likely, that a change point occurred $d$ time steps ago.
+
+Another method is based on the Maximum-a-Posteriori estimate (MAP)  and is used for example in \cite{Knoblauch:SpatiotemporalBayesian}. If at time step $t$ the most probable run length is for example $100$, and at $t+1$ the most probable run length is $101$, then no change point occurred. However, if the most probable run length at $t+1$ is $20$, then there probably was a change point at time $(t+1)-20$.
+
 
 \hypertarget{suffix-arrays}{%
 \section{Suffix arrays}\label{suffix-arrays}}
