@@ -271,11 +271,11 @@ segments}\label{finding-the-number-of-constant-segments}}
 \hypertarget{change-point-detection}{%
 \section{Change Point Detection}\label{change-point-detection}}
 
-Change points are abrupt changes in time series data that can for example be an indicator of some change in the underlying generating process. Finding change point can be useful in a lot of cases when it is interesting to calculate exact times when the nature of the data changed. On Linac3 example of a change point could be a sudden drop in the beam intensity. This could be an indicator of a change of some source parameter, and detecting such a change point early could be used to alert the operators.
+Changepoints are abrupt changes in time series data that can for example be an indicator of some change in the underlying generating process. Finding changepoint can be useful in a lot of cases when it is interesting to calculate exact times when the nature of the data changed. On Linac3 example of a changepoint could be a sudden drop in the beam intensity. This could be an indicator of a change of some source parameter, and detecting such a changepoint early could be used to alert the operators.
 
-There is a variety of change point detection Literature available, one overview can be found in~\cite{Aminikhanghahi:surveymethodstime}. Generally, one distinguishes between offline (or batch) and online analysis. In the offline setting, all data is available a priory, while in the online setting the algorithm decides if a change point occurred every time a new data point arrives. 
+There is a variety of changepoint detection Literature available, one overview can be found in~\cite{Aminikhanghahi:surveymethodstime}. Generally, one distinguishes between offline (or batch) and online analysis. In the offline setting, all data is available a priory, while in the online setting the algorithm decides if a changepoint occurred every time a new data point arrives. 
 
-Typically there are two approaches to change point detection: Either, one specifies some cost function that is to be minimized. This could be for example the L2-Distance when the number of change points is known an changes in mean should be detected (i.e. signal is a step function possibly with some noise and one wants to see when there was a jump). If the number of change points is not known, one needs to introduce a penalty that somehow depends on the number of change points, to avoid overfitting. For different cost functions in the offline setting and what kind of changes they capture see~\cite{Truong:Selectivereviewoffline}. The second approach is to view a change point as a point, where some parameters of a probability distribution (or the distribution itself) change. Then one would do a hypothesis test with the $H_0$ hypothesis that the distributions before and after a given point $x$ are equal. If the $H_0$ hypothesis is rejected, then there is a change point at $x$. A method which builds on this probabilistic setting is detailed in \protect\hyperlink{bayesian-online-changepoint-detection}{below}.
+Typically there are two approaches to changepoint detection: Either, one specifies some cost function that is to be minimized. This could be for example the L2-Distance when the number of changepoints is known an changes in mean should be detected (i.e. signal is a step function possibly with some noise and one wants to see when there was a jump). If the number of changepoints is not known, one needs to introduce a penalty that somehow depends on the number of changepoints, to avoid overfitting. For different cost functions in the offline setting and what kind of changes they capture see~\cite{Truong:Selectivereviewoffline}. The second approach is to view a changepoint as a point, where some parameters of a probability distribution (or the distribution itself) change. Then one would do a hypothesis test with the $H_0$ hypothesis that the distributions before and after a given point $x$ are equal. If the $H_0$ hypothesis is rejected, then there is a changepoint at $x$. A method which builds on this probabilistic setting is detailed in \protect\hyperlink{bayesian-online-changepoint-detection}{below}.
 
 \hypertarget{bayesian-online-changepoint-detection}{
 \subsection{Bayesian Online Change Point Detection}\label{bayesian-online-changepoint-detection}}
@@ -297,14 +297,14 @@ $P\left(x \mid \bm{{\theta}}\right)$ is called the likelihood, and it encodes ou
 
 \subsection{Algorithm}
 
-Based on this idea, Adams and MacKay proposed an online change point detection algorithm \cite{Adams:BayesianOnlineChangepoint}. They introduce the concept of \textit{run lengths}. At a given point in time $t$ the run length $r_t$ gives the number of time steps that passed since the last change point happened. During one run, we assume that all observations come from the same distribution.
+Based on this idea, Adams and MacKay proposed an online changepoint detection algorithm \cite{Adams:BayesianOnlineChangepoint}. They introduce the concept of \textit{run lengths}. At a given point in time $t$ the run length $r_t$ gives the number of time steps that passed since the last changepoint happened. During one run, we assume that all observations come from the same distribution.
 
-If the run length is known, at $t+1$ only two things are possible: $r_{t+1}=r_t + 1$ (no change point happened) or $r_{t+1}=0$ (there was a change point). The algorithm computes at each step $t$ the run length distribution $P(r_t \mid x_1,\dots,x_t)$, i.e. the probability of having a run length $r_t$ having observed everything that happened up to time $t$, see figure \ref{fig:runlength_example}.
+If the run length is known, at $t+1$ only two things are possible: $r_{t+1}=r_t + 1$ (no changepoint happened) or $r_{t+1}=0$ (there was a changepoint). The algorithm computes at each step $t$ the run length distribution $P(r_t \mid x_1,\dots,x_t)$, i.e. the probability of having a run length $r_t$ having observed everything that happened up to time $t$, see figure \ref{fig:runlength_example}.
 
 \begin{figure}
 	\centering
 	\includegraphics{images/runlength_example.png}
-	\caption{Explanation of the run length, figure taken from \cite{Adams:BayesianOnlineChangepoint}. In (a) you can see a time series with two change points at $t=5$ and $t=11$. In (b) the true run length can be seen. Notice that when a change point occurs, the run length drops to zero. (c) shows all run lengths that are possible at a given time $t$. The algorithm introduced in \cite{Adams:BayesianOnlineChangepoint} computes the probability of each node in the graph.}
+	\caption{Explanation of the run length, figure taken from \cite{Adams:BayesianOnlineChangepoint}. In (a) you can see a time series with two changepoints at $t=5$ and $t=11$. In (b) the true run length can be seen. Notice that when a changepoint occurs, the run length drops to zero. (c) shows all run lengths that are possible at a given time $t$. The algorithm introduced in \cite{Adams:BayesianOnlineChangepoint} computes the probability of each node in the graph.}
 	\label{fig:runlength_example}
 \end{figure}
 
@@ -321,7 +321,7 @@ and the nominator can be computed recursively (see equation (3) in \cite{Adams:B
 while the denominator can be seen as a scaling factor. $x_t^{(r)}$ denotes the set of observations associated with the run $r_t$ (The notation in the paper is slightly confusing. To be precise $x_t^{(r)} \equiv (x_{t-r_t}, \dots, x_{t-1})$, so the most recent observation is explicitly not included!). To apply the algorithm it helps to understand some technicalities, which I try to explain below. However I recommend reading a little bit (for example on wikipedia) about Hazard functions and more importantly conjugate priors.
 
 \subsubsection{Hazard function}
-The first term in the sum, $P(r_t \mid r_{t-1})$,  is called the change point prior and it encodes the information or intuition we have about the distribution of the change points. At any given time $t$, we can have only $r_t=r_{t-1} + 1$ or $r_t=0$. We introduce a hazard function $H$ that encodes the probability that a change point happened at a given run length. Then one can write
+The first term in the sum, $P(r_t \mid r_{t-1})$,  is called the changepoint prior and it encodes the information or intuition we have about the distribution of the changepoints. At any given time $t$, we can have only $r_t=r_{t-1} + 1$ or $r_t=0$. We introduce a hazard function $H$ that encodes the probability that a changepoint happened at a given run length. Then one can write
 
 \begin{equation*}
 	P(r_t \mid r_{t-1}) = \begin{cases}
@@ -331,7 +331,7 @@ The first term in the sum, $P(r_t \mid r_{t-1})$,  is called the change point pr
 	\end{cases}
 \end{equation*}
 
-For the ion source it probably makes sense to model the change points distribution as an exponential distribution, meaning that at each time step there is a change of probability $p$ for a new regime to start. However, one could improve this by making the hazard function dependent for example on a rising on the HT current, as a rising current seams to make drops in intensity more likely. But for the easy case without any assumption, only a sensible value for $p$ needs to be determined. As for the exponential distribution we have $\mu=\frac1p$, one can choose $p$ as one over the average time between change points, e.g. $4$ hours. The algorithm doesn't seem to be to be very sensible to the exact value of $p$, as long as it is chosen reasonably. In this exponential case, the hazard function is just $H(y)\equiv p$, so it is constant.
+For the ion source it probably makes sense to model the changepoints distribution as an exponential distribution, meaning that at each time step there is a change of probability $p$ for a new regime to start. However, one could improve this by making the hazard function dependent for example on a rising on the HT current, as a rising current seams to make drops in intensity more likely. But for the easy case without any assumption, only a sensible value for $p$ needs to be determined. As for the exponential distribution we have $\mu=\frac1p$, one can choose $p$ as one over the average time between changepoints, e.g. $4$ hours. The algorithm doesn't seem to be to be very sensible to the exact value of $p$, as long as it is chosen reasonably. In this exponential case, the hazard function is just $H(y)\equiv p$, so it is constant.
 
 \subsubsection{Conjugate Priors}\label{sec:conjugate_priors}
 The first term in the sum of equation \eqref{eq:prob_rt_and_x1t}, $P(x_t \mid r_{t-1}, x_t^{(r)})$, gives the probability of observing an new value $x_t$, given that we have run length $r_{t-1}$ and that for this run length we observed the values $x_t^{(r)}$. To calculate this, we need to decide how our data is distributed during one run. 
@@ -391,21 +391,27 @@ In \cite{Knoblauch:DoublyRobustBayesian} an approach to mitigate the problem of 
 
 The problem of outliers is also tackled in \cite{Fearnhead:ChangepointDetectionPresence}, however this is not a Bayesian setting anymore.
 
+One very straight forward improvement is also suggested in the original paper \cite{Adams:BayesianOnlineChangepoint}, and it is to prune the tail probabilities. This means that you look at the probabilities of the very long runs (the tail of the run length probability distribution) and if they are small, e.g. below $10^{-4}$ you set them to zero. Hence you can ignore all run lengths greater than a certain threshold in the recursion \eqref{eq:prob_rt_and_x1t} and thus save computation time.
+
 \subsection{Applying BOCPD}
-As the basic version of the algorithm does not require setting any hyper parameters, it can be applied easily. In the setting of the Linac3 Source we decided to model the current as normally distributed iid. variables with unknown mean and variance between the change points, and the change points as an exponential distribution. For the parameter of the Hazard function values in the order of multiple hours produce good results, and in this range the algorithm is not very sensible.
+As the basic version of the algorithm does not require setting any hyper parameters, it can be applied easily. In the setting of the Linac3 Source we decided to model the current as normally distributed iid. variables with unknown mean and variance between the changepoints, and the changepoints as an exponential distribution. For the parameter of the Hazard function values in the order of multiple hours produce good results, and in this range the algorithm is not very sensible.
 
 \begin{figure}
 	\centering
 	\includegraphics{images/bocd_example.png}
-	\caption{The BOCPD Algorithm applied to around seven hours of BCT05 current from September 2018 (sampled at 10s), where drops due to voltage breakdowns were removed. The black lines in the upper plot show the determined change points. In the upper plot the posterior run length distribution is plotted on a logarithmic color scale. Darker pixels indicate a higher probability.}
-	\label{fig:invgamma_example}
+	\caption{The BOCPD Algorithm applied to around seven hours of BCT05 current from September 2018 (sampled at 10s), where drops due to voltage breakdowns were removed. The black lines in the upper plot show the determined changepoints. In the upper plot the posterior run length distribution is plotted on a logarithmic color scale. Darker pixels indicate a higher probability.}
+	\label{fig:bocd_example}
 \end{figure}
 
-The paper \cite{Adams:BayesianOnlineChangepoint} does not propose a strategy to transform the run length probabilities into change point locations. There are several ways how this could be done.
+The paper \cite{Adams:BayesianOnlineChangepoint} does not propose a strategy to transform the run length probabilities into changepoint locations. There are several ways how this could be done.
 
-One method is to set a delay of $d$ time steps. After processing a new data point, one compares the probability of being in a run with length $d$ (i.e. the value $r_d$) to a threshold, and if the probability is high enough it is likely, that a change point occurred $d$ time steps ago.
+One method is to set a delay of $d$ time steps. After processing a new data point, one compares the probability of being in a run with length $d$ (i.e. the value $r_d$) to a threshold, and if the probability is high enough it is likely, that a changepoint occurred $d$ time steps ago.
 
-Another method is based on the Maximum-a-Posteriori estimate (MAP)  and is used for example in \cite{Knoblauch:SpatiotemporalBayesian}. If at time step $t$ the most probable run length is for example $100$, and at $t+1$ the most probable run length is $101$, then no change point occurred. However, if the most probable run length at $t+1$ is $20$, then there probably was a change point at time $(t+1)-20$.
+Another method is based on the Maximum-a-Posteriori estimate (MAP)  and is used for example in \cite{Knoblauch:SpatiotemporalBayesian}. If at time step $t$ the most probable run length is for example $100$, and at $t+1$ the most probable run length is $101$, then no changepoint occurred. However, if the most probable run length at $t+1$ is $20$, then there probably was a changepoint at time $(t+1)-20$.
+
+A third method, which in my opinion has the advantage of being more intuitive, is to at each time step look at the probability again. For example you sum up the probabilities of the $20\%$ longest possible run length, and if the sum is smaller than a certain threshold, i.e $0.1$, you assume a changepoint occurred. This makes sense visually: Consider Figure \ref{fig:bocd_example} and look at the bottom plot at $x=700$. The longest possible run length is around $150$ (Here we assumed that we pruned a fter the changepoint at $x=550$ was found, so all probabilities above the black line are zero). There, almost all probability mass is concentrated around the most probable run length, so we are likely still in this old run. However around $x=900$, the run length probability distribution gets a second peak for run lengths of around $100$. The tail probability there is small, so the probability of being in the run that started around $x=550$ is small. Hence, we should detect a new changepoint at around $x=800$.
+
+However, there might be better methods of deciding if a changepoint occurred, visually looking at the run length probabilities produces less false positives, so the intuition could somehow be better encoded. 
 
 
 \hypertarget{suffix-arrays}{%
