@@ -274,7 +274,7 @@ In our case it would hence be useful to know how many discrete levels, or number
 \subsubsection{Finding the number of constant
 segments}\label{finding-the-number-of-constant-segments}}
 
-This 
+This leads to the topic on change point detection which I will describe more in detail in the next chapter. However, if we are only interested in the number of step jumps, we can do it a bit easier. We can use two adjacent windows in which we compute the means and then calculate the quotient. If it is close to one, the means before and after the touching point of the windows are the same, if the quotient is not one, then somewhere around the touching point a jump has happened. In particular the jump happens very close to local extrema. Hence we only need to count the number of local extrema to get a very good approximation of the number of jumps that happened. However, it should be tried to do this analysis only in regions where the data actually has a step function character.
 
 \hypertarget{change-point-detection}{%
 \section{Change Point Detection}\label{change-point-detection}}
@@ -283,7 +283,7 @@ Changepoints are abrupt changes in time series data that can for example be an i
 
 There is a variety of changepoint detection Literature available, one overview can be found in~\cite{Aminikhanghahi:surveymethodstime}. Generally, one distinguishes between offline (or batch) and online analysis. In the offline setting, all data is available a priory, while in the online setting the algorithm decides if a changepoint occurred every time a new data point arrives. 
 
-Typically there are two approaches to changepoint detection: Either, one specifies some cost function that is to be minimized. This could be for example the L2-Distance when the number of changepoints is known an changes in mean should be detected (i.e. signal is a step function possibly with some noise and one wants to see when there was a jump). If the number of changepoints is not known, one needs to introduce a penalty that somehow depends on the number of changepoints, to avoid overfitting. For different cost functions in the offline setting and what kind of changes they capture see~\cite{Truong:Selectivereviewoffline}. The second approach is to view a changepoint as a point, where some parameters of a probability distribution (or the distribution itself) change. Then one would do a hypothesis test with the $H_0$ hypothesis that the distributions before and after a given point $x$ are equal. If the $H_0$ hypothesis is rejected, then there is a changepoint at $x$. A method which builds on this probabilistic setting is detailed in \protect\hyperlink{bayesian-online-changepoint-detection}{below}.
+Typically there are two approaches to changepoint detection: Either, one specifies some cost function that is to be minimized. This could be for example the L2-Distance when the number of changepoints is known an changes in mean should be detected (i.e. signal is a step function possibly with some noise and one wants to see when there was a jump). If the number of changepoints is not known, one needs to introduce a penalty that somehow depends on the number of changepoints, to avoid overfitting. For different cost functions in the offline setting and what kind of changes they capture see~\cite{Truong:Selectivereviewoffline}. The second approach is to view a changepoint as a point, where some parameters of a probability distribution (or the distribution itself) change. Then one would do a hypothesis test with the $H_0$ hypothesis that the distributions before and after a given point $x$ are equal. If the $H_0$ hypothesis is rejected, then there is a changepoint at $x$. A method which builds on this probabilistic setting is detailed \protect\hyperlink{bayesian-online-changepoint-detection}{below}.
 
 \hypertarget{bayesian-online-changepoint-detection}{
 \subsection{Bayesian Online Change Point Detection}\label{bayesian-online-changepoint-detection}}
@@ -295,7 +295,7 @@ Bayesian statistics is a branch of statistics which makes use of Bayes' theorem 
 P\left(A \mid B\right)=\frac{P\left(B \mid A\right)P\left(A\right)}{P\left(B\right)}
 \end{equation*}
 
-In conventional statistics, one has $n$ observations of a random variable $ x = \left(x_1, \dots x_n\right)$ coming from some probability distribution with unknown parameter $\bm{{\theta}}$ (which can be multidimensional, e.g. $\bm{{\theta}}=\left(\mu, \sigma^2 \right)$ for the normal distribution). This parameter is treated as an unknown, but fixed variable. In Bayesian statistics however, the parameter is treated as well, so we can give meaning to $P\left(\bm{{\theta}} \mid x\right)$. It is the probability of $\bm{{\theta}}$ being the parameter of the distribution of the $x_i$, given all our observations. Hence, we have by Bayes theorem
+In conventional statistics, one has $n$ observations of a random variable $ x = \left(x_1, \dots x_n\right)$ coming from some probability distribution with unknown parameter $\bm{{\theta}}$ (which can be multidimensional, e.g. $\bm{{\theta}}=\left(\mu, \sigma^2 \right)$ for the normal distribution). This parameter is treated as an unknown, but fixed variable. In Bayesian statistics however, the parameter is treated as a random variable as well, so we can give meaning to $P\left(\bm{{\theta}} \mid x\right)$. It is the probability of $\bm{{\theta}}$ being the parameter of the distribution of the $x_i$, given all our observations. Hence, we have by Bayes theorem
 
 \begin{equation} \label{eq:posterior_distribution}
 	P\left(\bm {{\theta}} \mid x\right)=\frac{P\left(x \mid \bm{{\theta}}\right)P\left(\bm {{\theta}}\right)}{P\left(x\right)} \propto P\left(x \mid \bm{{\theta}}\right)P\left(\bm {{\theta}}\right)
@@ -354,9 +354,9 @@ In case of the beam current, it makes sense to assume it is normally distributed
 
 This integral can be very difficult to calculate and can be typically only been simulated numerically. But, for some combinations of likelihoods and priors, the result has an algebraic representation making random sampling unnecessary. If this is the case, one calls the prior a \textit{conjugate prior}. There can be found lists (eg. \cite{Fink:CompendiumConjugatePriors}) of such pairs and how the parameters need to be updated. It is important to still have in mind that the likelihood and prior should be chosen to reflect reality.
 
-Here is a short example where the likelihood is a normal with unknown mean $\mu$ and variance $\sigma^2$, as this is used in many implementations of the Algorithm and makes sense for the ion source data. For a more complete derivation see \cite{Murphy:ConjugateBayesiananalysis}. The conjugate prior in this case is the \textit{Normal-Inverse-Gamma Distribution}.
+Here is a short example where the likelihood (the first term in the integral in \eqref{eq:pred_posterior}) is a normal with unknown mean $\mu$ and variance $\sigma^2$, as this is used in many implementations of the Algorithm and makes sense for the ion source data. For a more complete derivation see \cite{Murphy:ConjugateBayesiananalysis}. The conjugate prior in this case is the \textit{Normal-Inverse-Gamma Distribution}.
 
-This distribution has for parameters that we will explain here. Assume that we used $\nu=100$ data points to calculate a mean of $\hat\mu=10$ and $2\alpha=100$ (so $\alpha=50$) observations to calculate a variance of $\hat\sigma^2=0.1$. We can thus calculate the sum of squares~$$2\hat\beta := \sum_{i=1}^{100} (x_i - \hat\mu)^2=2\alpha*\hat\sigma^2=10 \Rightarrow \hat\beta=5.$$
+This distribution has four parameters that we will explain here. Assume that we used $\nu=100$ data points to calculate a mean of $\hat\mu=10$ and $2\alpha=100$ (so $\alpha=50$) observations to calculate a variance of $\hat\sigma^2=0.1$. We can thus calculate the sum of squares~$$2\hat\beta := \sum_{i=1}^{100} (x_i - \hat\mu)^2=2\alpha*\hat\sigma^2=10 \Rightarrow \hat\beta=5.$$
 
 As $\mu$ and $\sigma^2$ are unknown, it makes sense to encode our uncertainty using distributions. We want the pair $(\mu, \sigma^2)$ to be distributed with the Normal-Inverse-Gamma distribution, so the following has to hold
 \begin{gather*}
@@ -371,13 +371,13 @@ As $\mu$ and $\sigma^2$ are unknown, it makes sense to encode our uncertainty us
 	\label{fig:invgamma_example}
 \end{figure}
 
-If one looks at the probability distribution of the Inverse Gamma with these parameters, one can see that it is zero except for a bump around our estimated variance $\hat\sigma^2$, so it is a reasonable choice to encode our uncertainty about our estimate (see Figure \ref{fig:invgamma_example}). Similar the distribution of $\mu$ as a normal centered around $\hat\mu$ shows our uncertainty about this estimate, and if the variance of our measurements increase, this uncertainty increases, while the more observations ($\nu$) we use to estimate the mean, our uncertainty decreases. So this choice of prior seems to have a reasonable real world interpretation and we can hence use it in our calculations.
+If one looks at the probability distribution of the Inverse Gamma with these parameters, one can see that it is zero except for a bump around our estimated variance $\hat\sigma^2$, so it is a reasonable choice to encode our uncertainty about our estimate (see Figure \ref{fig:invgamma_example}). Similarly, the distribution of $\mu$ as a normal centered around $\hat\mu$ shows our uncertainty about this estimate, and if the variance of our measurements increase, this uncertainty increases, while the more observations ($\nu$) we use to estimate the mean, our uncertainty decreases. So this choice of prior seems to have a reasonable real world interpretation and we can hence use it in our calculations.
 
 In this case (for derivation see e.g. \cite{Murphy:ConjugateBayesiananalysis}) we know that
 \begin{equation} \label{eg:xt_t_distribution}
 x_t \mid r_{t-1}, x_{t}^{(r)} \sim t_{2\alpha}\left(\hat\mu, \frac{\hat\beta(\nu + 1)}{\alpha\nu}\right),
 \end{equation}
-that is a scaled and shifted Student-t distribution with $2\alpha$ degrees of freedom. Since we know the distribution, we do not need to calculate the Integral in \eqref{eq:pred_posterior} anymore.
+that is a scaled and shifted Student-t distribution with $2\alpha$ degrees of freedom. Since we know the distribution, we do not need to calculate the Integral in \eqref{eq:pred_posterior} anymore. The fact that the resulting distribution a a Student-t has also a very nice interpretation. The Student-t is a smeared out Gaussian (it has more weight on the tails) which converges to a Gaussian as its degrees of freedom increase. So the higher $\alpha$ is, the closer it resembles our likelihood, which makes sense because we get a better approximation of the variance. Also, as $\kappa$ increases, the resulting Gaussian (in the limit if $\alpha$ were very large) gets narrower, because with increasing $kappa$ there is less uncertainty in the estimation of the mean.
 
 Since the algorithm is a streaming algorithm, we sequentially observe new values. Every time a new value $x$ comes in, we update the parameters using the following rules, which follow directly from what the parameters represent:
 
@@ -393,7 +393,7 @@ Since the algorithm is a streaming algorithm, we sequentially observe new values
 \subsection{Generalizations}
 There are various resources that extend the BOCPD algorithm that could be interesting. 
 
-In \cite{Knoblauch:SpatiotemporalBayesian} a unification the Algorithm by Adams and MacKay (\cite{Adams:BayesianOnlineChangepoint}) with \cite{Fearnhead:lineinferencemultiple,Fearnhead:lineinferencemultiple} to create a method that allows selecting different models for each segment. Furthermore they present a method to extend BOCPD to multiple dimensions.
+In \cite{Knoblauch:SpatiotemporalBayesian} a unification the Algorithm by Adams and MacKay (\cite{Adams:BayesianOnlineChangepoint}) with \cite{Fearnhead:lineinferencemultiple} to create a method that allows selecting different models for each segment. Furthermore they present a method to extend BOCPD to multiple dimensions.
 
 In \cite{Knoblauch:DoublyRobustBayesian} an approach to mitigate the problem of outliers is presented. Bayesian Interference can be seen as a minimization problem over all distributions (see the cited paper) and by changing the metric that is used an alternative definition that is more robust can be used. More motivation on this topic can be found in \cite{Knoblauch:GeneralizedVariationalInference}.
 
@@ -431,11 +431,7 @@ To use this approach, we need to encode the information we have into a string. T
 
 Once a string representation of the changes is found, it could be interesting to combine it with changepoint detection. One could take some interval before a changepoint happens and create a string that contains the information of all changes that happened in these intervals, to then look for common substrings. This would be one way to find out if there are common tuning patterns that affect the beam in a way that changes some property (thus leading to a changepoint).
 
-\hypertarget{references}{%
-\section*{References}\label{references}}
-\addcontentsline{toc}{subsection}{References}
-
-\hypertarget{refs}{}
+\hypertarget{references}
 \printbibliography
 
 \end{document}
