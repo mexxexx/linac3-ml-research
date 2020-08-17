@@ -39,8 +39,7 @@
 \hypersetup{
 	pdftitle={Ideas for the Linac3 Source ML Analysis},
 	pdfauthor={Max Mihailescu},
-	hidelinks,
-	pdfcreator={LaTeX via pandoc}}
+	hidelinks,}
 \usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -171,67 +170,74 @@ generalisation of the matrix profile calculation.
 \centering
 \includegraphics{images/hti_bct_htirise.png}
 \caption{Rise of HTI (bottom) and degradation of BCT25 current (top).}
+\label{fig:hti_bct_htirise}
 \end{figure}
 
-A rising HTI often coincides with a degrading BCT25 current, so this seems to confirm this theory. However it is not a proof that an opposite effect (e.g.~rising HTI and rising BCT current) doesn't also exist. But we didn't observe it in the time frame we considered (August and September 2016).
+A rising HTI often coincides with a degrading BCT25 current, see Figure \ref{fig:hti_bct_htirise}, so this seems to confirm this theory. However it is not a proof that an opposite effect (e.g.~rising HTI and rising BCT current) doesn't also exist. But we didn't observe it in the time frame we considered (August and September 2016).
 
 \begin{figure}
 \centering
 \includegraphics{images/hti_bct_htifall.png}
 \caption{Drops of the HTI and jumps in the BCT25 current.}
+\label{fig:hti_bct_htifall}
 \end{figure}
 
-The reverse can also be seen. Drops of the HTI correlate with jumps in the BCT25 current.
+The reverse can also be seen in Figure \ref{fig:hti_bct_htifall}. Drops of the HTI correlate with jumps in the BCT25 current.
 
 \begin{figure}
 \centering
 \includegraphics{images/bct_oven_hti.png}
 \caption{A common pattern when including BCT25 current, HTI and Oven1 power.}
+\label{fig:bct_oven_hti}
 \end{figure}
 
-One possible explanation we explored is that the behavior in the second image can often time be achieved by increasing the Oven Power. This can be seen in this image.
+One possible explanation we explored is that the behavior in Figure \ref{fig:hti_bct_htifall} can often time be achieved by increasing the Oven Power. This can be seen in Figure \ref{fig:bct_oven_hti}.
 
 \begin{figure}
 \centering
 \includegraphics{images/bct_oven_hti_2dim.png}
 \caption{Jumps in BCT25 current and HTI without changes of the Oven power.}
+\label{fig:bct_oven_hti_2dim}
 \end{figure}
 
-However, it appears that there are cases where the oven remains unchanged. Further invastigation is necessary, but it could be that the
+However, it appears that there are cases where the oven remains unchanged, cases can be seen in Figure \ref{fig:bct_oven_hti_2dim}. Further invastigation is necessary, but it could be that the
 power of Oven 2 was increased, as this is only the data for Oven 1.
 
 \begin{figure}
 \centering
 \includegraphics{images/gas_oven_hti.png}
 \caption{Correlation of gas voltage decreases with oven power increases.}
+\label{fig:gas_oven_hti}
 \end{figure}
 
-We could also see that an increase of the oven power is often accompanied with a decrease of the gas voltage.
+We could also see that an increase of the oven power is often accompanied with a decrease of the gas voltage, see Figure \ref{fig:gas_oven_hti}.
 
 We didn't see any meaningful motifs when jointly looking at the Bias Disc Voltage and the BCT25 current.
 
 \hypertarget{discretization}{%
 \section{Discretization}\label{discretization}}
 
-One problem of using the data from CALS/NXCALS is that for all setting only acquisitions are logged. This means, that we typically don't know the exact values a setting was changed to, see the figure below for example. It shows one day (05.11.2018) of Oven1 power acquisition from NXCALS, where only one data point every five minutes is logged. From the logbook we can learn that at 14:00 the Oven1 Power was set to 12.0W, however on the plot we can see some oscillations (The times in the plot are UTC, so you have to count +2h).
+One problem of using the data from CALS/NXCALS is that for all setting only acquisitions are logged. This means, that we typically don't know the exact values a setting was changed to, see the figure below for example. It shows one day (05.11.2018) of Oven1 power acquisition from NXCALS, where only one data point every five minutes is logged. From the logbook we can learn when the oven1 power was chaged precisely, however on the plot in Figure \ref{fig:elogbook} we can see some oscillations (The times in the plot are UTC, so you have to count +01h when comparing to the elogbook excerpt). 
 
-\includegraphics{images/oven1example_05112018.png}
 
 \begin{figure}
 \centering
-\includegraphics{images/oven1example_logbook_05112018.png}
-\caption{Top: Screenshot of Oven1 Acquisition, Bottom: The real value that was set at 14:00.}
+\includegraphics{images/oven1example_05112018.png}
+\includegraphics[width=!,totalheight=!,scale=1.7]{images/oven1example_logbook_05112018.png}
+\caption{Top: Screenshot of Oven1 Acquisition, Bottom: Excerpt from the elogbook on this day. Times are +01:00 in comparison to UTC on the plot.}
+\label{fig:elogbook}
 \end{figure}
 
 The same occurs with other settings, and raises the problem that we cannot directly say when a change of a certain setting happened. So I
 tried to discretize the raw acquisition values and get back the true setting where possible. The main assumption I had to make is that a
 setting remained constant over time, unless somebody changes it. This appears reasonable in most cases, but in some extreme cases some
-information might be lost (see below).
+information might be lost (see below in Figure \ref{fig:gasaqn}).
 
 \begin{figure}
 \centering
 \includegraphics{images/gas_example_02112018.png}
 \caption{GASAQN voltage on the second and third November 2018. This was during an oven refill where the gas pressure changes not as a step function.}
+\label{fig:gasaqn}
 \end{figure}
 
 Under this assumption we can model a setting as a step function~\cite{Weisstein:StepFunction} with added noise, and the problem is to find the step function. I will call the step function \emph{discretization}, because we separate our time series into discrete states of a fixed setting.
@@ -268,6 +274,8 @@ In our case it would hence be useful to know how many discrete levels, or number
 \subsubsection{Finding the number of constant
 segments}\label{finding-the-number-of-constant-segments}}
 
+This 
+
 \hypertarget{change-point-detection}{%
 \section{Change Point Detection}\label{change-point-detection}}
 
@@ -297,7 +305,7 @@ $P\left(x \mid \bm{{\theta}}\right)$ is called the likelihood, and it encodes ou
 
 \subsection{Algorithm}
 
-Based on this idea, Adams and MacKay proposed an online changepoint detection algorithm \cite{Adams:BayesianOnlineChangepoint}. They introduce the concept of \textit{run lengths}. At a given point in time $t$ the run length $r_t$ gives the number of time steps that passed since the last changepoint happened. During one run, we assume that all observations come from the same distribution.
+Based on this idea, Adams and MacKay proposed an online changepoint detection algorithm \cite{Adams:BayesianOnlineChangepoint}. A great introduction can be found at \cite{Gundersen:BayesianOnlineChangepoint} and a python implementation at \cite{Kulick:bayesianchangepointdetection} They introduce the concept of \textit{run lengths}. At a given point in time $t$ the run length $r_t$ gives the number of time steps that passed since the last changepoint happened. During one run, we assume that all observations come from the same distribution.
 
 If the run length is known, at $t+1$ only two things are possible: $r_{t+1}=r_t + 1$ (no changepoint happened) or $r_{t+1}=0$ (there was a changepoint). The algorithm computes at each step $t$ the run length distribution $P(r_t \mid x_1,\dots,x_t)$, i.e. the probability of having a run length $r_t$ having observed everything that happened up to time $t$, see figure \ref{fig:runlength_example}.
 
