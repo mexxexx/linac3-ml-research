@@ -98,7 +98,7 @@ The Matrix Profile is a tool for efficient motif discovery in time series, i.e.~
 \hypertarget{what-is-the-matrix-profile}{%
 \subsection{What is the Matrix Profile?}\label{what-is-the-matrix-profile}}
 
-First, let's understand what a subsequence is. Consider a time series \(T=T_1 \dots T_n,\quad T_i\in\mathbb{R}\) of length \(n\), and fix a number \(m < n\) (typically \(m \ll n\)). Now, a subsequence of length \(m\) starting at \(i\) is the continuous block \(T_i \dots T_{i+m}\). By sliding a window of size \(m\) over \(T\) we can get all \(n-m+1\) subsequences of length \(m\).
+First, let's understand what a subsequence is. Consider a ordered sequence of real values \(T=T_1 \dots T_n\) of length \(n\) (what we typically call a time series, although the ordering can also be something else, like a DNA sequence), and fix a number \(m < n\) (typically \(m \ll n\)). Now, a subsequence of length \(m\) starting at \(i\) is the continuous block \(T_i \dots T_{i+m}\). By sliding a window of size \(m\) over \(T\) we can get all \(n-m+1\) subsequences of length \(m\).
 
 Now, we can define the distance between two subsequences. The most obvious choice is the euclidean distance
 \(dist(Q, T) = \sqrt{\left(Q_1 - T_1\right)^2+\dots+\left(Q_m-T_m\right)^2}\). However, for the matrix profile we work with the so called
@@ -138,7 +138,7 @@ As described above, the MP profile is a tool that can help to discover repeating
 	  Motifs of different parameter combinations shifted in time: When computing the multidimensional matrix profile, to see if there are
 	  motifs in more than on dimension, one could shift one of the time series in time, to see for example how a change of the gas voltage affects the current in one hour.
 	\item
-	  Meta time series: Instead of looking at the original time series, one could try to look for motifs or discords in a rolling window time series. For example, one could calculate the standard deviation in one hour windows over the BCT25 current and look for repeated patterns there, to maybe find motifs that will indicate a future unstable period.
+	  Meta time series: Instead of looking at the original time series, one could first calculate a new series with the rolling mean or standard deviation. I.e. one would slide a window of fixed length over the original series, and store the means/standard deviations of the window in a new sequence. Then one could look for repeated patterns there and try to understand what influences the motifs there.
 \end{enumerate}
 
 \hypertarget{difficulties}{%
@@ -150,15 +150,17 @@ The MP is built under the assumption, that repeated patterns or motifs are an ef
 \centering
 \includegraphics{images/current_demo.png}
 \caption{Example of the BCT25 current}
+\label{fig:current_demo}
 \end{figure}
 
 \begin{figure}
 \centering
 \includegraphics{images/current_demo_2.png}
 \caption{Example of the BCT25 current, smaller window}
+\label{fig:current_demo_2}
 \end{figure}
 
-In our case however, the BCT signals are mostly flat with oscillations (see the two images above), hence motif discovery with z-normalized subsequences is very insufficient. If you have two flat signals with a lot of added noise, their z-normalized euclidean distance will be very large, even if one might expect it to be small because visually they are very similar. There are some ideas to mitigate the problem~\cite{Paepe:EliminatingNoiseMatrix}, but I didn't get any satisfying results.
+In our case however, the BCT signals are mostly flat with oscillations (see Figures \ref{fig:current_demo} and \ref{fig:current_demo_2}), hence motif discovery with z-normalized subsequences is very insufficient. If you have two flat signals with a lot of added noise, their z-normalized euclidean distance will be very large, even if one might expect it to be small as they are visually similar. There are some ideas to mitigate the problem in~\cite{Paepe:EliminatingNoiseMatrix}, but I didn't get any satisfying results.
 
 \hypertarget{results}{%
 \subsection{Results}\label{results}}
@@ -217,7 +219,7 @@ We didn't see any meaningful motifs when jointly looking at the Bias Disc Voltag
 \hypertarget{discretization}{%
 \section{Discretization}\label{discretization}}
 
-One problem of using the data from CALS/NXCALS is that for all setting only acquisitions are logged. This means, that we typically don't know the exact values a setting was changed to, see the figure below for example. It shows one day (05.11.2018) of Oven1 power acquisition from NXCALS, where only one data point every five minutes is logged. From the logbook we can learn when the oven1 power was chaged precisely, however on the plot in Figure \ref{fig:elogbook} we can see some oscillations (The times in the plot are UTC, so you have to count +01h when comparing to the elogbook excerpt). 
+One problem of using the data from CALS/NXCALS is that for all setting only acquisitions are logged. This means, that we typically don't know the exact values a setting was changed to, see Figure \ref{fig:elogbook}. It shows one day (05.11.2018) of Oven1 power acquisition from NXCALS, where only one data point every five minutes is logged. From the logbook we can learn when the oven1 power was chaged precisely, however on the plot in Figure \ref{fig:elogbook} we can see some oscillations (The times in the plot are UTC, so you have to count +01h when comparing to the elogbook excerpt). 
 
 
 \begin{figure}
@@ -271,8 +273,7 @@ One very common problem with decision trees is over fitting. If they are allowed
 In our case it would hence be useful to know how many discrete levels, or number of constant segments, the function we want to model consist of. Then, we could regress it using a tree with this maximum of leaf node, because by minimizing the error (i.e.~difference from the original function) it would find the best stepwise approximation to the input data without over-fitting.
 
 \hypertarget{finding-the-number-of-constant-segments}{%
-\subsubsection{Finding the number of constant
-segments}\label{finding-the-number-of-constant-segments}}
+\subsubsection{Finding the number of constant segments}\label{finding-the-number-of-constant-segments}}
 
 This leads to the topic on change point detection which I will describe more in detail in the next chapter. However, if we are only interested in the number of step jumps, we can do it a bit easier. We can use two adjacent windows in which we compute the means and then calculate the quotient. If it is close to one, the means before and after the touching point of the windows are the same, if the quotient is not one, then somewhere around the touching point a jump has happened. In particular the jump happens very close to local extrema. Hence we only need to count the number of local extrema to get a very good approximation of the number of jumps that happened. However, it should be tried to do this analysis only in regions where the data actually has a step function character.
 
@@ -289,10 +290,10 @@ Typically there are two approaches to changepoint detection: Either, one specifi
 \subsection{Bayesian Online Change Point Detection}\label{bayesian-online-changepoint-detection}}
 
 \subsubsection{Bayesian Statistics}
-Bayesian statistics is a branch of statistics which makes use of Bayes' theorem to update its beliefs.
+Bayesian statistics is a branch of statistics which makes use of Bayes' theorem
 
 \begin{equation*}
-P\left(A \mid B\right)=\frac{P\left(B \mid A\right)P\left(A\right)}{P\left(B\right)}
+P\left(A \mid B\right)=\frac{P\left(B \mid A\right)P\left(A\right)}{P\left(B\right)}.
 \end{equation*}
 
 In conventional statistics, one has $n$ observations of a random variable $ x = \left(x_1, \dots x_n\right)$ coming from some probability distribution with unknown parameter $\bm{{\theta}}$ (which can be multidimensional, e.g. $\bm{{\theta}}=\left(\mu, \sigma^2 \right)$ for the normal distribution). This parameter is treated as an unknown, but fixed variable. In Bayesian statistics however, the parameter is treated as a random variable as well, so we can give meaning to $P\left(\bm{{\theta}} \mid x\right)$. It is the probability of $\bm{{\theta}}$ being the parameter of the distribution of the $x_i$, given all our observations. Hence, we have by Bayes theorem
@@ -312,7 +313,7 @@ If the run length is known, at $t+1$ only two things are possible: $r_{t+1}=r_t 
 \begin{figure}
 	\centering
 	\includegraphics{images/runlength_example.png}
-	\caption{Explanation of the run length, figure taken from \cite{Adams:BayesianOnlineChangepoint}. In (a) you can see a time series with two changepoints at $t=5$ and $t=11$. In (b) the true run length can be seen. Notice that when a changepoint occurs, the run length drops to zero. (c) shows all run lengths that are possible at a given time $t$. The algorithm introduced in \cite{Adams:BayesianOnlineChangepoint} computes the probability of each node in the graph.}
+	\caption{Explanation of the run length, figure taken from \cite{Adams:BayesianOnlineChangepoint}. In (a) you can see a time series with two changepoints at $t=5$ and $t=11$. In (b) the true run length can be seen. Notice that when a changepoint occurs, the run length drops to zero. (c) shows an excerpt of possible run lengths and the edges of the graph show how run lengths can evolve with increasing time. Note that at any point, the run length for the next time point can be only either one greater or zero. The algorithm introduced in \cite{Adams:BayesianOnlineChangepoint} computes the probability of each node in the graph.}
 	\label{fig:runlength_example}
 \end{figure}
 
@@ -377,7 +378,7 @@ In this case (for derivation see e.g. \cite{Murphy:ConjugateBayesiananalysis}) w
 \begin{equation} \label{eg:xt_t_distribution}
 x_t \mid r_{t-1}, x_{t}^{(r)} \sim t_{2\alpha}\left(\hat\mu, \frac{\hat\beta(\nu + 1)}{\alpha\nu}\right),
 \end{equation}
-that is a scaled and shifted Student-t distribution with $2\alpha$ degrees of freedom. Since we know the distribution, we do not need to calculate the Integral in \eqref{eq:pred_posterior} anymore. The fact that the resulting distribution a a Student-t has also a very nice interpretation. The Student-t is a smeared out Gaussian (it has more weight on the tails) which converges to a Gaussian as its degrees of freedom increase. So the higher $\alpha$ is, the closer it resembles our likelihood, which makes sense because we get a better approximation of the variance. Also, as $\kappa$ increases, the resulting Gaussian (in the limit if $\alpha$ were very large) gets narrower, because with increasing $kappa$ there is less uncertainty in the estimation of the mean.
+that is a scaled and shifted Student-t distribution with $2\alpha$ degrees of freedom. Since we know the distribution, we do not need to calculate the Integral in \eqref{eq:pred_posterior} anymore. The fact that the resulting distribution a a Student-t has also a very nice interpretation. The Student-t is a smeared out Gaussian (it has more weight on the tails) which converges to a Gaussian as its degrees of freedom increase. So the higher $\alpha$ is, the closer it resembles our likelihood, which makes sense because we get a better approximation of the variance. Also, as $\kappa$ increases, the resulting Gaussian (in the limit if $\alpha$ were very large) gets narrower, because with increasing $\kappa$ there is less uncertainty in the estimation of the mean.
 
 Since the algorithm is a streaming algorithm, we sequentially observe new values. Every time a new value $x$ comes in, we update the parameters using the following rules, which follow directly from what the parameters represent:
 
