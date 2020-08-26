@@ -170,7 +170,7 @@ generalisation of the matrix profile calculation.
 
 \begin{figure}
 \centering
-\includegraphics{images/hti_bct_htirise.png}
+\includegraphics[width=!,totalheight=!,scale=0.4]{images/hti_bct_htirise.png}
 \caption{Rise of HTI (bottom) and degradation of BCT25 current (top).}
 \label{fig:hti_bct_htirise}
 \end{figure}
@@ -179,7 +179,7 @@ A rising HTI often coincides with a degrading BCT25 current, see Figure \ref{fig
 
 \begin{figure}
 \centering
-\includegraphics{images/hti_bct_htifall.png}
+\includegraphics[width=!,totalheight=!,scale=0.4]{images/hti_bct_htifall.png}
 \caption{Drops of the HTI and jumps in the BCT25 current.}
 \label{fig:hti_bct_htifall}
 \end{figure}
@@ -188,7 +188,7 @@ The reverse can also be seen in Figure \ref{fig:hti_bct_htifall}. Drops of the H
 
 \begin{figure}
 \centering
-\includegraphics{images/bct_oven_hti.png}
+\includegraphics[width=!,totalheight=!,scale=0.4]{images/bct_oven_hti.png}
 \caption{A common pattern when including BCT25 current, HTI and Oven1 power.}
 \label{fig:bct_oven_hti}
 \end{figure}
@@ -197,7 +197,7 @@ One possible explanation we explored is that the behavior in Figure \ref{fig:hti
 
 \begin{figure}
 \centering
-\includegraphics{images/bct_oven_hti_2dim.png}
+\includegraphics[width=!,totalheight=!,scale=0.4, angle=90]{images/bct_oven_hti_2dim.png}
 \caption{Jumps in BCT25 current and HTI without changes of the Oven power.}
 \label{fig:bct_oven_hti_2dim}
 \end{figure}
@@ -207,7 +207,7 @@ power of Oven 2 was increased, as this is only the data for Oven 1.
 
 \begin{figure}
 \centering
-\includegraphics{images/gas_oven_hti.png}
+\includegraphics[width=!,totalheight=!,scale=0.4, angle=90]{images/gas_oven_hti.png}
 \caption{Correlation of gas voltage decreases with oven power increases.}
 \label{fig:gas_oven_hti}
 \end{figure}
@@ -248,15 +248,15 @@ There are several techniques that could be used to solve such a problem, and we 
 
 \begin{figure}
 \centering
-\includegraphics{images/oven_discrete_nov2016.png}
-\caption{Discretization of Oven Power for November 2016. In blue the original data is plotted, the orange line represents the discrete
+\includegraphics[width=!,totalheight=!,scale=0.38, angle=90]{images/oven_discrete_nov2018.png}
+\caption{Discretization of Oven Power for November 2018. In blue the original data is plotted, the orange line represents the discrete
 approximation.}
 \end{figure}
 
 \begin{figure}
 \centering
-\includegraphics{images/rf_discrete_nov2016.png}
-\caption{Discretization of RF Power for November 2016.}
+\includegraphics[width=!,totalheight=!,scale=0.38, angle=90]{images/gas_discrete_nov2018.png}
+\caption{Discretization of Gas Voltage for November 2018.}
 \end{figure}
 
 As one can see, the discrete approximation, our attempt at finding the true step function, follows the acquisition signal very closely and most changes are modeled correctly. This can also be seen when comparing the results with entries in the elogbook (especially for the oven, since here most changes are noted in the logbook). As can be seen in the figures, during some periods no discrete approximation is plotted. This is the case when the source was off (BCT05 current 0A), because the method does not work well when there are sections with a non-step function like signal as during an oven restart, so I cut them out.
@@ -264,9 +264,9 @@ As one can see, the discrete approximation, our attempt at finding the true step
 \hypertarget{explanation}{%
 \subsection{Explanation}\label{explanation}}
 
-As described above, the process involves using a Decision Tree Regressor. A decision tree partitions the input data by sequentially
-applying if-then-else rules. It can be thought of as a directed graph, were every node is one of these rules. End nodes, so called leaves, that return the class the input is belonging to. Training a decision tree means finding an optimal set of rules, that explains the training data as good as possible. {[}TODO: Add reference{]}. Decision trees are a supervised learning method, meaning that for each training input a output class is specified, and the algorithm tries to learn this relationship. Decision trees can be used for regression. If you want to regress a function \(\mathbb R^n \to \mathbb R; \quad (x_1, \dots, x_n) \mapsto y\) you
-pass \((x_1, \dots, x_n)\) as input and \(y\) as the desired class. In the case of an one dimensional function for example, a decision tree classifier could lern that for \(x>=5\) and \(x<=10\) it should output \(y=5\). So, by the nature of a decision tree, the regression result is a step function, that looks like the result as much as possible.
+As described above, the process involves using a Decision Tree Regressor (see \cite{scikit-learn:DecisionTrees}). A decision tree partitions the input data by sequentially
+applying if-then-else rules. It can be thought of as a directed graph, were every node is one of these rules. End nodes, so called leaves, that return the class the input is belonging to. Training a decision tree means finding an optimal set of rules, that explains the training data as good as possible. Decision trees are a supervised learning method, meaning that for each training input a output class is specified, and the algorithm tries to learn this relationship. Decision trees can be used for regression. If you want to regress a function \(\mathbb R^n \to \mathbb R; \quad (x_1, \dots, x_n) \mapsto y\) you
+pass \((x_1, \dots, x_n)\) as input and \(y\) as the desired class. In the case of an one dimensional function for example, a decision tree classifier could learn that for \(x>=5\) and \(x<=10\) it should output \(y=5\). So, by the nature of a decision tree, the regression result is a step function, that looks like the result as much as possible.
 
 One very common problem with decision trees is over fitting. If they are allowed to grow too much, they are not regressing any more, but copying. For example suppose that all your input data points are the natural numbers. By building a tree with the rules \((x >= 0.5, x <1.5)\), \((x >= 1.5, x <2.5)\), \((x >= 2.5, x <3.5)\), \ldots{} the resulting regressor could perfectly replicate the input function, but it would learn all small oscillations, what is not what we are typically interested in. However, one thing that can be controlled is how many leaf nodes the tree can have, i.e.~in the 1D case into how many intervals the real axis can be split at most.
 
@@ -403,7 +403,7 @@ The problem of outliers is also tackled in \cite{Fearnhead:ChangepointDetectionP
 One very straight forward improvement is also suggested in the original paper \cite{Adams:BayesianOnlineChangepoint}, and it is to prune the tail probabilities. This means that you look at the probabilities of the very long runs (the tail of the run length probability distribution) and if they are small, e.g. below $10^{-4}$ you set them to zero. Hence you can ignore all run lengths greater than a certain threshold in the recursion \eqref{eq:prob_rt_and_x1t} and thus save computation time.
 
 \subsection{Applying BOCPD}
-As the basic version of the algorithm does not require setting any hyper parameters, it can be applied easily. In the setting of the Linac3 Source we decided to model the current as normally distributed iid. variables with unknown mean and variance between the changepoints, and the changepoints as an exponential distribution. For the parameter of the Hazard function values in the order of multiple hours produce good results, and in this range the algorithm is not very sensible.
+As the basic version of the algorithm does not require setting any hyper parameters, it can be applied easily. In the setting of the Linac3 Source we decided to model the current as normally distributed variables, which are independent and identically distributed in the segments between two changepoints with unkown mean and variance (i.e. for any segment between two changepoints, a "run", the random variables are independent and identically distributed with unknown mean and variance). We model the time between changepoints a an exponential variable. For the parameter of the Hazard function values in the order of multiple hours produce good results, and in this range the algorithm is not very sensible.
 
 \begin{figure}
 	\centering
