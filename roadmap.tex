@@ -412,6 +412,13 @@ As the basic version of the algorithm does not require setting any hyper paramet
 	\label{fig:bocd_example}
 \end{figure}
 
+\begin{figure}
+	\centering
+	\includegraphics{images/Nov2018_study.png}
+	\caption{The BOCPD Algorithm applied to a few hours from November 2018 without removing voltage breakdowns. Here, the run length posterior is color coded differently to show some nuances. Yellow indicates a lower probability while purple indicates a higher run length probability.}
+	\label{fig:bocd_example_2}
+\end{figure}
+
 The paper \cite{Adams:BayesianOnlineChangepoint} does not propose a strategy to transform the run length probabilities into changepoint locations. There are several ways how this could be done.
 
 One method is to set a delay of $d$ time steps. After processing a new data point, one compares the probability of being in a run with length $d$ (i.e. the value $r_d$) to a threshold, and if the probability is high enough it is likely, that a changepoint occurred $d$ time steps ago.
